@@ -1,0 +1,4 @@
+Planificación:
+
+1. Conseguir establecer una conexión exitosa con Mosquitto por wifi
+    - 

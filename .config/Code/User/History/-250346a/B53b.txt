@@ -1,0 +1,2 @@
+paho-mqtt
+pip install influxdb-client

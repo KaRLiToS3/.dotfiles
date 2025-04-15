@@ -1,0 +1,14 @@
+{
+  "environment": {
+    "executable": "/home/Carlos/Projects/esp32-server/bin/python",
+    "prefix": "/home/Carlos/Projects/esp32-server",
+    "version": "3.13.2.final.0",
+    "is64Bit": true,
+    "symlinks": [
+      "/home/Carlos/Projects/esp32-server/bin/python",
+      "/home/Carlos/Projects/esp32-server/bin/python3",
+      "/home/Carlos/Projects/esp32-server/bin/python3.13"
+    ]
+  },
+  "symlinks": []
+}

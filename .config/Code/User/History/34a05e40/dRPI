@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+WORKDIR /app
+
+COPY . /app
+
+RUN apk add --no-cache python3 py3-pip python3-dev gcc musl-dev \
+    && python3 -m venv /app/venv \
+    && . /app/venv/bin/activate \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+# Use a shell script to run both applications
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+ENTRYPOINT ["/app/start.sh"]
