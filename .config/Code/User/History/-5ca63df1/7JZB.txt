@@ -1,5 +1,0 @@
-Planificación:
-
-1. Conseguir establecer una conexión exitosa con Mosquitto por wifi
-    - Poner el cliente en la ESP32
-    - Configurar la interfaz de wlan para 

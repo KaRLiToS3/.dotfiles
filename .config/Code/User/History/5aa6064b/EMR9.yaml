@@ -1,6 +1,0 @@
-services:
-  mosquito:
-    image: eclipse-mosquitto:latest
-    ports:
-      - "2000:1883"
-   
