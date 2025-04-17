@@ -1,0 +1,8 @@
+docker
+docker-compose
+neochat
+alacritty
+foot
+kdenlive
+discord
+code

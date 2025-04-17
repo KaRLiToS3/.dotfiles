@@ -1,0 +1,13 @@
+base
+base-devel
+sudo
+zsh
+git
+wget
+htop
+vim
+nano
+bat
+neofetch
+lsd
+yay-bin
