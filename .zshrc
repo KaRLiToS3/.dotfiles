@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+##########POWERLEVEL10K############
+
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -12,8 +14,10 @@ source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
+##########POWERLEVEL10K############
+
 #Neofetch
-neofetch
+#neofetch
 
 #Autocompletion
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -41,3 +45,13 @@ if ! ssh-add -l &>/dev/null; then
     ssh-add ~/.ssh/github </dev/tty
 fi
 
+# Comando especial de pacman para registrar programas nuevos en ~/.dotfiles/pkgs/pkglist.txt
+pctrack() {
+    if sudo pacman -Syu "$@"; then
+        for pkg in "$@"; do
+            if ! grep -qx "$pkg" ~/.dotfiles/pkgs/pkglist.txt; then
+                echo -e "$pkg\n" >> ~/.dotfiles/pkgs/pkglist.txt
+            fi
+        done
+    fi
+}
