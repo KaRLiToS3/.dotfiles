@@ -15,11 +15,26 @@ else
 fi 
 
 pacman -Syu
-for pkg in $(cat "$USER_HOME/.dotfiles/pkgs/pkglist.txt"); do
+while read -r pkg; do
     if pacman -Qi "$pkg" &>/dev/null; then
         echo "$pkg is already installed."
     else
         echo "Installing $pkg..."
-        #sudo pacman -S --noconfirm "$pkg"
+        pacman -S --noconfirm "$pkg"
     fi
-done
+done < "$USER_HOME/.dotfiles/pkgs/pkglist.txt"
+
+if pacman -Qi yay &>/dev/null; then 
+    yay -Syu
+    while read -r pkg; do
+        if yay -Qi "$pkg" &>/dev/null; then
+            echo "$pkg is already installed."
+        else
+            echo "Installing $pkg..."
+            yay -S --noconfirm "$pkg"
+        fi 
+    done < "$USER_HOME/.dotfiles/pkgs/aurlist.txt"
+else
+    echo "yay is not installed. Please install yay first."
+    exit 1
+fi

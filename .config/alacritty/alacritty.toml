@@ -1,5 +1,5 @@
 [font]
-size = 14.0
+size = 22.0
 
 [font.bold]
 family = "monospace"
@@ -17,4 +17,7 @@ style = "Italic"
 family = "MesloLGS NF"
 
 [window]
-opacity = 0.8
+opacity = 0.05
+
+[colors.primary]
+background = "#f20000"

@@ -1,0 +1,5 @@
+burpsuite 2025.4-1
+shell-color-scripts-git r113.576735c-1
+visual-studio-code-bin 1.99.3-1
+yay-bin 12.4.2-1
+yay-bin-debug 12.4.2-1
