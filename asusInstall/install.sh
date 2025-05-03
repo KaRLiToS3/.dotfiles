@@ -47,6 +47,19 @@ grub-mkconfig -o /boot/grub/grub.cfg
 echo "🖥️ Installing NVIDIA drivers..."
 pacman -S nvidia-dkms
 
+# --- CHECK AUDIO PROFILE ---
+echo "🔊 Checking audio profile..."
+PROFILE="output:analog-stereo+input:analog-stereo"
+CARD_COUNT=0
+
+echo "Found ${#CARDS[@]} audio cards"
+
+pactl list short cards | awk '{print $2}' | while read -r CARD; do
+  ((CARD_COUNT++))
+  echo "Applying profile '$PROFILE' to card $CARD"
+  pactl set-card-profile "$CARD" "$PROFILE"
+done
+
 # --- DONE ---
 echo "✅ The script was successful!"
 echo "🧠 Installed kernel version: $(uname -r)"

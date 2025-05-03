@@ -1,0 +1,57 @@
+* {
+    background-image: none;
+    font-family: "Fira Sans Semibold", sans-serif;
+}
+
+window {
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent black background */
+}
+
+button {
+    color: #FFFFFF;
+    background-color: #1A1A1A;
+    border: 2px solid #800000;
+    border-radius: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #CC0000;
+    border: 2px solid #FF3333;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button icon styling */
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+}
+
+#hibernate {
+    background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+}
+
+/* Button text styling */
+button label {
+    font-size: 20px;
+    margin: 80px 0 0 0;
+    color: #FFFFFF;
+}

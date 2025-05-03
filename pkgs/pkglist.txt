@@ -17,7 +17,6 @@ neochat
 alacritty
 foot
 kdenlive
-discord
 code
 nmap
 hydra
@@ -35,6 +34,16 @@ slurp
 gnome-keyring
 seahorse
 network-manager-applet
-dunst
-rofi
-
+dunst 
+lm-sensors
+wl-clipboard
+i2c-tools
+psensor
+alsa-utils
+sof-firmware
+alsa-firmware
+alsa-tools
+wireplumber
+pavucontrol
+rofi-wayland
+spotify-launcher
