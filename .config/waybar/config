@@ -22,11 +22,10 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "mpd",
         "pulseaudio",
         "cpu", 
         "memory",
-        "battery", 
+        "battery",
         "clock", 
         "tray",
         "custom/exit"

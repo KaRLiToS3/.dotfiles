@@ -2,6 +2,7 @@ base
 base-devel
 sudo
 zsh
+sddm
 git
 wget
 htop
@@ -46,4 +47,9 @@ alsa-tools
 wireplumber
 pavucontrol
 rofi-wayland
-spotify-launcher
+libreoffice
+xdg-desktop-portal-hyprland
+ntfs-3g
+thunar-volman
+exfatprogs
+wireshark-qt

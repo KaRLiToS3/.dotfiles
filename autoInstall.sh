@@ -44,7 +44,6 @@ shopt -u dotglob nullglob
 
 # Install the ASUS configuration
 read -p "Do you want to install the Asus configuration? (y/N) " answer
-
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     if [[ -f ./AsusInstall/install.sh ]]; then
         bash ./AsusInstall/install.sh
@@ -60,5 +59,15 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
         bash $USER_HOME/.dotfiles/pkgs/install.sh
     else
         echo "El archivo $USER_HOME/.dotfiles/pkgs/install.sh no existe."
+    fi
+fi
+
+# Setup login and desktop environment
+read -p "Do you want to setup the login and desktop environment? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    if [[ -f $USER_HOME/.dotfiles/setup.sh ]]; then
+        bash $USER_HOME/.dotfiles/imgs/setup.sh
+    else
+        echo "El archivo $USER_HOME/.dotfiles/setup.sh no existe."
     fi
 fi

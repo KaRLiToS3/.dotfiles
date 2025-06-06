@@ -46,6 +46,27 @@ fi
 alias ls='lsd'
 alias cat='bat'
 alias ll='ls -al'
+alias easyeda2kicad='source ~/Projects/venv/easyeda-env/bin/activate && easyeda2kicad'
+
+kicadcomponent() {
+    for arg in "$@"; do
+        if [[ $arg == "-h" ]]; then
+            echo "Use: kicadcomponent <lcsc_id> <output_location>"
+            echo "Example: kicadcomponent C12345 ~/Documents/easyeda2kicad"
+            echo "The output location must be the location of the lib and the name of the files"
+            echo "Supose the lib name is easyeda2kicad, then the output will be:"
+            echo "easyeda2kicad.pretty in ~/Documents"
+            echo "easyeda2kicad.kicad_sym in ~/Documents"
+            echo "easyeda2kicad.3dshape in ~/Documents"
+            echo "If the lib name is . then all files will be hidden"
+            return 0
+        fi
+    done
+    
+    # MODIFY THE LOCATION OF THE VENV
+    source ~/Projects/venv/easyeda-env/bin/activate
+    easyeda2kicad --full --overwrite --lcsc_id="$1" --output="$2"
+}
 
 locate() {
     find / -type f -name "*$1*" 2>/dev/null
