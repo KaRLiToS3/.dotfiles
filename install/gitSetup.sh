@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+########## NO LONGER NECESSARY ##########
+
 if [ "$EUID" -e 0 ]; then
     echo "Do not run the script as root."
     exit 1

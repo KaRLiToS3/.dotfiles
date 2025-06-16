@@ -15,7 +15,8 @@ else
 fi 
 
 pacman -Syu
-while read -r pkg; do
+while read -r line; do
+    pkg=$(echo "$line" | cut -d' ' -f1)
     if pacman -Qi "$pkg" &>/dev/null; then
         echo "$pkg is already installed."
     else
@@ -26,7 +27,8 @@ done < "$USER_HOME/.dotfiles/pkgs/pkglist.txt"
 
 if pacman -Qi yay &>/dev/null; then 
     yay -Syu
-    while read -r pkg; do
+    while read -r line; do
+        pkg=$(echo "$line" | cut -d' ' -f1)
         if yay -Qi "$pkg" &>/dev/null; then
             echo "$pkg is already installed."
         else
