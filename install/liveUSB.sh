@@ -35,10 +35,7 @@ if ! mountpoint -q "$MNT/boot"; then
   exit 1
 fi
 
-arch-chroot "$MNT" bash -c "
-  echo 'Installing the basic packages...'
-  pacman -S --noconfirm base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano openssh xdg-utils wget curl
-"
+pacstrap -K "$MNT" base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano openssh xdg-utils wget curl
 
 # --- Creation of the fstab file ---
 genfstab -U /mnt >> /mnt/etc/fstab
