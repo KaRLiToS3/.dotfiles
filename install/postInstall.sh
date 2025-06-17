@@ -13,7 +13,17 @@ else
     USER_HOME="$HOME"
 fi
 
-read -p "Do you want to create all links to the files in the .dotfiles? \nWARNING: All previous config files will be removed (y/N) " answer
+#Enable services
+systemctl enable NetworkManager.service
+systemctl start NetworkManager.service
+systemctl start sshd.service
+
+if ! ping -q -w 1 -c 1 8.8.8.8 > /dev/null; then
+  echo "❌ No internet connection. Please check your network settings." >&2
+  exit 1
+fi
+
+read -p "Do you want to create all links to the files in the .dotfiles? WARNING: All previous config files will be removed (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
 
     echo "Removing the old files and linking to new ones..."
@@ -29,7 +39,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 
         if [[ -d "$dir" ]]; then        #TODO check . and .. dir
             for folder in "$dir"/*; do
-
+            
                 fname=$(basename "$folder")
                 if [[ "$fname" == "." || "$fname" == ".." ]]; then  #Just in case
                     continue
@@ -38,6 +48,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
                 echo "Removing $USER_HOME/$basename/$fname..."
                 rm -rf "$USER_HOME/$basename/$(basename "$folder")"
                 echo "Linking $folder to $USER_HOME/$basename/$fname"
+                mkdir -p "$USER_HOME/$basename"
                 ln -sf "$folder" "$USER_HOME/$basename/$(basename "$folder")"
             done
         else
@@ -78,6 +89,12 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
         pacman -S --noconfirm sddm
     fi
     systemctl enable sddm.service
+    # sed -i 's/^Layout=*$/Layout=es/' /etc/sddm.conf
+    cat > /usr/share/sddm/scripts/Xsetup <<EOF
+    #!/bin/sh
+    setxkbmap -layout es
+    EOF
     
+    chmod +x /usr/share/sddm/scripts/Xsetup
     cp $USER_HOME/.dotfiles/imgs/5120x2880.png "/usr/share/sddm/themes/breeze/"
 fi

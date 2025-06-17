@@ -9,10 +9,7 @@ htop
 vim
 nano
 bat
-neofetch
 lsd
-yay-bin
-breeze
 docker
 docker-compose
 neochat

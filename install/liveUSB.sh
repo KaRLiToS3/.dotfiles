@@ -37,7 +37,7 @@ fi
 
 arch-chroot "$MNT" bash -c "
   echo 'Installing the basic packages...'
-  pacman -S --noconfirm base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano
+  pacman -S --noconfirm base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano openssh xdg-utils wget curl
 "
 
 # --- Creation of the fstab file ---
@@ -137,40 +137,42 @@ arch-chroot "$MNT" bash -c "
   ::1                     localhost
   127.0.1.1               ASUS_STRIX.localadmin                   ASUS_STRIX
   EOF
-
-  echo 'NetworkManager enabling...'
-  systemctl enable NetworkManager
-  systemctl enable bluetooth
 "
 
-echo "Setting up the root and user passwords..."
+read -p "Do you want to set up the first user and the root user? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  echo "Setting up the root and user passwords..."
+  root_password=""
+  username=""
+  user_password=""
 
-root_password=""
-username=""
-user_password=""
+  while [[ -z "$root_password" || "$root_password" =~ [[:space:]] ]]; do
+    read -p "Provide the root password for the new system (no spaces, tabs, etc): " -s root_password
+    echo
+  done
+  while [[ -z "$username" || "$username" =~ [[:space:]] ]]; do
+    read -p "Provide the username for the new user (no spaces, tabs, etc): " username
+  done
+  while [[ -z "$user_password" || "$user_password" =~ [[:space:]] ]]; do
+    read -p "Provide the password for the new user (no spaces, tabs, etc): " -s user_password
+    echo
+  done
 
-while [[ -z "$root_password" || "$root_password" =~ [[:space:]] ]]; do
-  read -p "Provide the root password for the new system (no spaces, tabs, etc): " -s root_password
-  echo
-done
-while [[ -z "$username" || "$username" =~ [[:space:]] ]]; do
-  read -p "Provide the username for the new user (no spaces, tabs, etc): " username
-done
-while [[ -z "$user_password" || "$user_password" =~ [[:space:]] ]]; do
-  read -p "Provide the password for the new user (no spaces, tabs, etc): " -s user_password
-  echo
-done
-
-arch-chroot "$MNT" useradd -m -G wheel,audio,video,input,storage,power -s /bin/bash "$username"
-arch-chroot "$MNT" chpasswd <<< "root:$root_password"
-arch-chroot "$MNT" chpasswd <<< "$username:$user_password"
-arch-chroot "$MNT" sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
-arch-chroot "$MNT" sed -i "/^root ALL=(ALL:ALL) ALL$/a $username ALL=(ALL:ALL) ALL" /etc/sudoers
+  arch-chroot "$MNT" useradd -m -G wheel,audio,video,input,storage,power -s /bin/bash "$username"
+  arch-chroot "$MNT" chpasswd <<< "root:$root_password"
+  arch-chroot "$MNT" chpasswd <<< "$username:$user_password"
+  arch-chroot "$MNT" sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+  arch-chroot "$MNT" sed -i "/^root ALL=(ALL:ALL) ALL$/a $username ALL=(ALL:ALL) ALL" /etc/sudoers
+  arch-chroot "$MNT" bash -c "
+    cd /home/$username
+    xdg-user-dirs-update
+  "
+fi
 
 read -p "Do you want to clone the github repo with the dotfiles? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
   echo "🔄 Cloning the dotfiles repository..."
-  git clone https://github.com/KaRLiToS3/.dotfiles.git "$MNT/home/$username"
+  git clone https://github.com/KaRLiToS3/.dotfiles.git "$MNT/home/$username/.dotfiles"
   arch-chroot "$MNT" chown -R "$username:$username" "/home/$username/.dotfiles"
 fi
 

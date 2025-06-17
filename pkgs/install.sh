@@ -12,31 +12,53 @@ if [ -n "${SUDO_USER:-}" ]; then
     USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
 else
     USER_HOME="$HOME"
-fi 
+fi
+
+PKGS_DIR="$USER_HOME/.dotfiles/pkgs"
 
 pacman -Syu
 while read -r line; do
-    pkg=$(echo "$line" | cut -d' ' -f1)
+    # Extract the package name (element 1) from each line
+    pkg=${line%% *}
+
     if pacman -Qi "$pkg" &>/dev/null; then
         echo "$pkg is already installed."
     else
         echo "Installing $pkg..."
-        pacman -S --noconfirm "$pkg"
-    fi
-done < "$USER_HOME/.dotfiles/pkgs/pkglist.txt"
-
-if pacman -Qi yay &>/dev/null; then 
-    yay -Syu
-    while read -r line; do
-        pkg=$(echo "$line" | cut -d' ' -f1)
-        if yay -Qi "$pkg" &>/dev/null; then
-            echo "$pkg is already installed."
+        if pacman -S --noconfirm "$pkg"; then
+            echo "✅ $pkg installed successfully."
         else
-            echo "Installing $pkg..."
-            yay -S --noconfirm "$pkg"
-        fi 
-    done < "$USER_HOME/.dotfiles/pkgs/aurlist.txt"
+            echo "❌ Failed to install $pkg." >&2
+        fi
+    fi
+done <"$PKGS_DIR/pkglist.txt"
+
+if ! pacman -Qi yay &>/dev/null; then
+    echo "Installing yay..."
+    git clone https://aur.archlinux.org/yay.git "$PKGS_DIR/yay"
+    cd "$PKGS_DIR/yay"
+    su - "$SUDO_USER" -c "makepkg -si --noconfirm"
+    rm -rf "$PKGS_DIR/yay"
+    echo "✅ yay installed successfully."
 else
-    echo "yay is not installed. Please install yay first."
-    exit 1
+    echo "yay is already installed."
 fi
+
+su - "$SUDO_USER" -c "yay -Syu"
+while read -r line; do
+    pkg=${line%% *}
+    
+    if su - "$SUDO_USER" -c "yay -Qi \"$pkg\" &>/dev/null"; then
+        echo "$pkg is already installed."
+    else
+        echo "Installing $pkg..."
+        if su - "$SUDO_USER" -c "yay -S --noconfirm \"$pkg\" &>/dev/null"; then
+            echo "✅ $pkg installed successfully."
+        else
+            echo "❌ Failed to install $pkg from AUR." >&2
+        fi
+    fi
+done <"$PKGS_DIR/aurlist.txt"
+
+cd "$USER_HOME/.dotfiles"
+echo "✅ All packages installed successfully."

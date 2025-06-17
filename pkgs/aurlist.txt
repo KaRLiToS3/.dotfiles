@@ -3,3 +3,5 @@ shell-color-scripts-git
 visual-studio-code-bin
 yay-bin
 yay-bin-debug
+neofetch
+sddm-old-breeze-theme
