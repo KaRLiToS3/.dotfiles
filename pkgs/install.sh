@@ -16,49 +16,59 @@ fi
 
 PKGS_DIR="$USER_HOME/.dotfiles/pkgs"
 
-pacman -Syu
-while read -r line; do
-    # Extract the package name (element 1) from each line
-    pkg=${line%% *}
+read -p "Do you want to install the filtered pacman packages? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    pacman -Syu
+    while read -r line; do
+        # Extract the package name (element 1) from each line
+        pkg=${line%% *}
 
-    if pacman -Qi "$pkg" &>/dev/null; then
-        echo "$pkg is already installed."
-    else
-        echo "Installing $pkg..."
-        if pacman -S --noconfirm "$pkg"; then
-            echo "✅ $pkg installed successfully."
+        if pacman -Qi "$pkg" &>/dev/null; then
+            echo "$pkg is already installed."
         else
-            echo "❌ Failed to install $pkg." >&2
+            echo "Installing $pkg..."
+            if pacman -S --noconfirm "$pkg"; then
+                echo "✅ $pkg installed successfully."
+            else
+                echo "❌ Failed to install $pkg." >&2
+            fi
         fi
-    fi
-done <"$PKGS_DIR/pkglist.txt"
+    done <"$PKGS_DIR/pkglist.txt"
+fi
 
 if ! pacman -Qi yay &>/dev/null; then
     echo "Installing yay..."
     git clone https://aur.archlinux.org/yay.git "$PKGS_DIR/yay"
     cd "$PKGS_DIR/yay"
-    su - "$SUDO_USER" -c "makepkg -si --noconfirm"
-    rm -rf "$PKGS_DIR/yay"
-    echo "✅ yay installed successfully."
+    if su - "$SUDO_USER" -c "makepkg -si --noconfirm"; then
+        rm -rf "$PKGS_DIR/yay"
+        echo "✅ yay installed successfully."
+    else
+        echo "❌ Failed to install yay." >&2
+        exit 1
+    fi
 else
     echo "yay is already installed."
 fi
 
-su - "$SUDO_USER" -c "yay -Syu"
-while read -r line; do
-    pkg=${line%% *}
-    
-    if su - "$SUDO_USER" -c "yay -Qi \"$pkg\" &>/dev/null"; then
-        echo "$pkg is already installed."
-    else
-        echo "Installing $pkg..."
-        if su - "$SUDO_USER" -c "yay -S --noconfirm \"$pkg\" &>/dev/null"; then
-            echo "✅ $pkg installed successfully."
+read -p "Do you want to install the AUR packages with yay? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    su - "$SUDO_USER" -c "yay -Syu"
+    while read -r line; do
+        pkg=${line%% *}
+        
+        if su - "$SUDO_USER" -c "yay -Qi \"$pkg\" &>/dev/null"; then
+            echo "$pkg is already installed."
         else
-            echo "❌ Failed to install $pkg from AUR." >&2
+            echo "Installing $pkg..."
+            if su - "$SUDO_USER" -c "yay -S --noconfirm \"$pkg\" &>/dev/null"; then
+                echo "✅ $pkg installed successfully."
+            else
+                echo "❌ Failed to install $pkg from AUR." >&2
+            fi
         fi
-    fi
-done <"$PKGS_DIR/aurlist.txt"
+    done <"$PKGS_DIR/aurlist.txt"
+fi
 
 cd "$USER_HOME/.dotfiles"
-echo "✅ All packages installed successfully."
+echo "✅ Done."

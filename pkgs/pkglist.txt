@@ -34,7 +34,7 @@ gnome-keyring
 seahorse
 network-manager-applet
 dunst 
-lm-sensors
+lm_sensors
 wl-clipboard
 i2c-tools
 psensor

@@ -160,16 +160,13 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   arch-chroot "$MNT" chpasswd <<< "$username:$user_password"
   arch-chroot "$MNT" sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
   arch-chroot "$MNT" sed -i "/^root ALL=(ALL:ALL) ALL$/a $username ALL=(ALL:ALL) ALL" /etc/sudoers
-  arch-chroot "$MNT" bash -c "
-    cd /home/$username
-    xdg-user-dirs-update
-  "
+  arch-chroot "$MNT" su - $username -c "xdg-user-dirs-update || echo \"❌ Failed to update user directories for $username\""
 fi
 
 read -p "Do you want to clone the github repo with the dotfiles? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
   echo "🔄 Cloning the dotfiles repository..."
-  git clone https://github.com/KaRLiToS3/.dotfiles.git "$MNT/home/$username/.dotfiles"
+  arch-chroot "$MNT" su - $username -c "git clone https://github.com/KaRLiToS3/.dotfiles.git \"/home/$username/.dotfiles\""
   arch-chroot "$MNT" chown -R "$username:$username" "/home/$username/.dotfiles"
 fi
 
