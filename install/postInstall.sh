@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root. Please use sudo."
+    echo "❌ This script must be run as root. Please use sudo." >&2
     exit 1
 fi
 
@@ -62,24 +62,30 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     shopt -u dotglob nullglob
 fi
 
+read -p "Do you want to copy the files for the root user? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    cp -r $USER_HOME/.dotfiles/root/* /root/
+    cp -r $USER_HOME/.dotfiles/.zsh /root/
+fi
+
 # Install pacman packages
 read -p "Do you want to install the pacman packages? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     if [[ -f $USER_HOME/.dotfiles/pkgs/install.sh ]]; then
         bash $USER_HOME/.dotfiles/pkgs/install.sh
     else
-        echo "El archivo $USER_HOME/.dotfiles/pkgs/install.sh no existe."
+        echo "❌ El archivo $USER_HOME/.dotfiles/pkgs/install.sh no existe." >&2
     fi
 fi
 
 # --- CHECK AUDIO PROFILE --- TODO
-echo "🔊 Checking audio profile..."
-PROFILE="output:analog-stereo+input:analog-stereo"
+# echo "🔊 Checking audio profile..."
+# PROFILE="output:analog-stereo+input:analog-stereo"
 
-pactl list short cards | awk '{print $2}' | while read -r CARD; do
-  echo "Applying profile '$PROFILE' to card $CARD"
-  pactl set-card-profile "$CARD" "$PROFILE"
-done
+# pactl list short cards | awk '{print $2}' | while read -r CARD; do
+#   echo "Applying profile '$PROFILE' to card $CARD"
+#   pactl set-card-profile "$CARD" "$PROFILE"
+# done
 
 # Setup login and desktop environment
 read -p "Do you want to setup the login and desktop environment? (y/N) " answer
@@ -89,12 +95,36 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
         pacman -S --noconfirm sddm
     fi
     systemctl enable sddm.service
-    # sed -i 's/^Layout=*$/Layout=es/' /etc/sddm.conf
     cat > /usr/share/sddm/scripts/Xsetup <<EOF
-    #!/bin/sh
-    setxkbmap -layout es
-    EOF
+#!/bin/sh
+setxkbmap -layout es
+EOF
     
     chmod +x /usr/share/sddm/scripts/Xsetup
-    cp $USER_HOME/.dotfiles/imgs/5120x2880.png "/usr/share/sddm/themes/breeze/"
+    if yay -Q breeze &> /dev/null; then
+        cat > /etc/sddm.conf <<EOF
+[Autologin]
+Relogin=false
+Session=
+User=
+
+[General]
+HaltCommand=/usr/bin/systemctl poweroff
+InputMethod=
+RebootCommand=/usr/bin/systemctl reboot
+
+[Theme]
+Current=breeze
+
+[Users]
+MaximumUid=60513
+MinimumUid=1000
+
+[X11]
+DisplayCommand=/etc/sddm/Xsetup
+EOF
+        cp $USER_HOME/.dotfiles/imgs/5120x2880.png "/usr/share/sddm/themes/breeze/"
+    else
+        echo "❌ Breeze theme not found, skipping wallpaper copy." >&2
+    fi
 fi

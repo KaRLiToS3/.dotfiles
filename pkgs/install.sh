@@ -14,6 +14,9 @@ else
     USER_HOME="$HOME"
 fi
 
+echo "$SUDO_USER ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/01_yay_temp
+chmod 440 /etc/sudoers.d/01_yay_temp
+
 PKGS_DIR="$USER_HOME/.dotfiles/pkgs"
 
 read -p "Do you want to install the filtered pacman packages? (y/N) " answer
@@ -39,8 +42,8 @@ fi
 if ! pacman -Qi yay &>/dev/null; then
     echo "Installing yay..."
     git clone https://aur.archlinux.org/yay.git "$PKGS_DIR/yay"
-    cd "$PKGS_DIR/yay"
-    if su - "$SUDO_USER" -c "makepkg -si --noconfirm"; then
+
+    if sudo -u "$SUDO_USER" -c "cd \"$PKGS_DIR/yay\" && makepkg -si --noconfirm"; then
         rm -rf "$PKGS_DIR/yay"
         echo "✅ yay installed successfully."
     else
@@ -53,15 +56,15 @@ fi
 
 read -p "Do you want to install the AUR packages with yay? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
-    su - "$SUDO_USER" -c "yay -Syu"
+    sudo -u "$SUDO_USER" yay -Syu
     while read -r line; do
         pkg=${line%% *}
         
-        if su - "$SUDO_USER" -c "yay -Qi \"$pkg\" &>/dev/null"; then
+        if sudo -u "$SUDO_USER" yay -Qi "$pkg" &>/dev/null; then
             echo "$pkg is already installed."
         else
             echo "Installing $pkg..."
-            if su - "$SUDO_USER" -c "yay -S --noconfirm \"$pkg\" &>/dev/null"; then
+            if sudo -u "$SUDO_USER" yay -S --noconfirm "$pkg"; then
                 echo "✅ $pkg installed successfully."
             else
                 echo "❌ Failed to install $pkg from AUR." >&2
@@ -70,5 +73,8 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     done <"$PKGS_DIR/aurlist.txt"
 fi
 
+rm -f /etc/sudoers.d/01_yay_temp
+
 cd "$USER_HOME/.dotfiles"
 echo "✅ Done."
+

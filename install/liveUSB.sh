@@ -14,28 +14,28 @@ fi
 MNT="/mnt"
 
 if ! mountpoint -q "$MNT"; then
-  echo "❌ Linux File System is not mounted to $MNT. Please mount it manually before running this script."
+  echo "❌ Linux File System is not mounted to $MNT. Please mount it manually before running this script." >&2
   exit 1
 fi
 
 # Check if the disk is using GPT partition table
 root_device=$(findmnt -no SOURCE "$MNT" | sed 's/[0-9]*$//')
 if ! parted "$root_device" print | grep -q "Partition Table: gpt"; then
-  echo "❌ The disk $root_device is not using a GPT partition table. This script requires GPT for UEFI boot."
+  echo "❌ The disk $root_device is not using a GPT partition table. This script requires GPT for UEFI boot." >&2
   exit 1
 fi
 
 if [ -e "$MNT/etc/arch-release" ]; then
-  echo "❌ Arch already installed in $MNT. Aborting."
+  echo "❌ Arch already installed in $MNT. Aborting." >&2
   exit 1
 fi
 
 if ! mountpoint -q "$MNT/boot"; then
-  echo "❌ EFI partition not mounted to $MNT/boot. Please mount it manually before running this script."
+  echo "❌ EFI partition not mounted to $MNT/boot. Please mount it manually before running this script." >&2
   exit 1
 fi
 
-pacstrap -K "$MNT" base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano openssh xdg-utils wget curl
+pacstrap -K "$MNT" base base-devel linux-firmware grub efibootmgr networkmanager os-prober sudo git nano openssh xdg-utils xdg-user-dirs wget curl
 
 # --- Creation of the fstab file ---
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -55,7 +55,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   "; then
     echo "✅ Key imported successfully."
   else
-    echo "❌ Failed to import key using the clean method."
+    echo "❌ Failed to import key using the clean method." >&2
     wget "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x8b15a6b0e9a3fa35" -O /tmp/g14.sec
     cp /tmp/g14.sec "$MNT/tmp/g14.sec"
 
@@ -66,7 +66,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     "; then 
       echo "✅ Key imported successfully using fallback method."
     else
-      echo "❌ Failed to import key using fallback method."
+      echo "❌ Failed to import key using fallback method." >&2
       exit 1
     fi
   fi
@@ -160,7 +160,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   arch-chroot "$MNT" chpasswd <<< "$username:$user_password"
   arch-chroot "$MNT" sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
   arch-chroot "$MNT" sed -i "/^root ALL=(ALL:ALL) ALL$/a $username ALL=(ALL:ALL) ALL" /etc/sudoers
-  arch-chroot "$MNT" su - $username -c "xdg-user-dirs-update || echo \"❌ Failed to update user directories for $username\""
+  arch-chroot "$MNT" su - $username -c "xdg-user-dirs-update || echo \"❌ Failed to update user directories for $username\" >&2"
 fi
 
 read -p "Do you want to clone the github repo with the dotfiles? (y/N) " answer
