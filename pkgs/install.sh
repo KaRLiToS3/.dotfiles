@@ -42,8 +42,11 @@ fi
 if ! pacman -Qi yay &>/dev/null; then
     echo "Installing yay..."
     git clone https://aur.archlinux.org/yay.git "$PKGS_DIR/yay"
+    chown -R "$SUDO_USER" "$PKGS_DIR/yay"
+    chmod -R 764 "$PKGS_DIR/yay"
 
-    if sudo -u "$SUDO_USER" -c "cd \"$PKGS_DIR/yay\" && makepkg -si --noconfirm"; then
+    cd "$PKGS_DIR/yay" || { echo "❌ Failed to change directory to yay." >&2; exit 1; }
+    if sudo -u "$SUDO_USER" makepkg -si --noconfirm; then
         rm -rf "$PKGS_DIR/yay"
         echo "✅ yay installed successfully."
     else
