@@ -98,3 +98,11 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
         echo "❌ The file $USER_HOME/.dotfiles/sddm/setup.sh doesn't exist." >&2
     fi
 fi
+
+# Setup zsh
+read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    sudo -u "$SUDO_USER" chsh -s zsh
+fi
+
+echo "✅ Post-installation setup completed successfully."

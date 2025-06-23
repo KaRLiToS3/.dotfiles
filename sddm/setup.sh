@@ -74,6 +74,7 @@ MaximumUid=60513
 MinimumUid=1000
 EOF
     echo "✅ SDDM configuration file created at /etc/sddm.conf"
+    mkdir -p /etc/sddm.conf.d
     cat > /etc/sddm.conf.d/virtualkbd.conf <<EOF
 [General]
 InputMethod=qtvirtualkeyboard

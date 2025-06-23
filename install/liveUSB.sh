@@ -170,10 +170,17 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   arch-chroot "$MNT" chown -R "$username:$username" "/home/$username/.dotfiles"
 fi
 
-echo "🔄 Unmounting /mnt..."
-umount -lR "$MNT"
+read -p "Do you want to try to install everything now? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  echo "🔄 Installing packages from the .dotfiles repository..."
+  arch-chroot "$MNT" env SUDO_USER="$username" bash /home/$username/.dotfiles/install/postInstall.sh
 
-echo "✅ Installation inside /mnt completed. Now boot into the new system a follow the next steps."
-echo "🧾 To complete the setup, please run:"
-echo ".dotfiles/install/postInstall.sh # to finish package setup and enable SDDM"
+  echo "🔄 Unmounting /mnt..."
+  umount -lR "$MNT"
 
+  echo "✅ Installation completed. Boot into the new System :)"
+
+else 
+  echo "🧾 To complete the setup, boot into the system and please run:"
+  echo ".dotfiles/install/postInstall.sh"
+fi
