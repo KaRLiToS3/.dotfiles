@@ -105,4 +105,13 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     sudo -u "$SUDO_USER" chsh -s zsh
 fi
 
+#Cusror theme
+read -p "Do you want to apply the Bibata Cursor Theme? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    if [[ -d /usr/share/icons/Bibata-Modern-Classic ]]; then
+        ln -sf /usr/share/icons/Bibata-Modern-Classic /usr/share/icons/default
+    else
+        echo "❌ Bibata Cursor Theme is not installed. Please install it first." >&2
+    fi
+fi
 echo "✅ Post-installation setup completed successfully."

@@ -54,31 +54,12 @@ if [ ! -d /usr/share/sddm/themes/sddm-astronaut-theme ]; then
     else
         echo "Keeping default SDDM PAM configuration."
     fi
-    
-    cat >/etc/sddm.conf <<EOF
-[Autologin]
-Relogin=false
-Session=
-User=
+    cp $USER_HOME/.dotfiles/sddm/sddm.conf /etc/sddm.conf
 
-[General]
-HaltCommand=/usr/bin/systemctl poweroff
-InputMethod=
-RebootCommand=/usr/bin/systemctl reboot
-
-[Theme]
-Current=sddm-astronaut-theme
-
-[Users]
-MaximumUid=60513
-MinimumUid=1000
-EOF
     echo "✅ SDDM configuration file created at /etc/sddm.conf"
     mkdir -p /etc/sddm.conf.d
-    cat > /etc/sddm.conf.d/virtualkbd.conf <<EOF
-[General]
-InputMethod=qtvirtualkeyboard
-EOF
+    cp $USER_HOME/.dotfiles/sddm/virtualkbd.conf /etc/sddm.conf.d/virtualkbd.conf
+
     echo "✅ Virtual keyboard configuration file created at /etc/sddm.conf.d/virtualkbd.conf"
 
     sed -i '/^ConfigFile=$/c\ConfigFile=Themes/dark_and_red.conf' /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop

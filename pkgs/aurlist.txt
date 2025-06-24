@@ -3,3 +3,4 @@ shell-color-scripts-git
 visual-studio-code-bin
 neofetch
 breeze
+bibata-cursor-theme

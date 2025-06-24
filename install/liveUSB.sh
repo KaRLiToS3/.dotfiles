@@ -157,7 +157,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 
   arch-chroot "$MNT" useradd -m -G wheel,audio,video,input,storage,power -s /bin/bash "$username"
   arch-chroot "$MNT" chpasswd <<< "root:$root_password"
-  arch-chroot "$MNT" chpasswd <<< "$username:$user_password"
+  arch-chroot "$MNT" chpasswd <<< "$username:$user_passw ord"
   arch-chroot "$MNT" sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
   arch-chroot "$MNT" sed -i "/^root ALL=(ALL:ALL) ALL$/a $username ALL=(ALL:ALL) ALL" /etc/sudoers
   arch-chroot "$MNT" su - $username -c "xdg-user-dirs-update || echo \"❌ Failed to update user directories for $username\" >&2"
