@@ -47,7 +47,10 @@ pavucontrol
 rofi-wayland
 libreoffice
 xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
 ntfs-3g
 thunar-volman
 exfatprogs
 wireshark-qt
+strace
+xsettingsd
