@@ -102,7 +102,7 @@ fi
 # Setup zsh
 read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
-    sudo -u "$SUDO_USER" chsh -s zsh
+    sudo -u "$SUDO_USER" chsh -s /bin/zsh
 fi
 
 #Cusror theme

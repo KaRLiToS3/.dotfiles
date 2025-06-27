@@ -62,7 +62,7 @@ if [ ! -d /usr/share/sddm/themes/sddm-astronaut-theme ]; then
 
     echo "✅ Virtual keyboard configuration file created at /etc/sddm.conf.d/virtualkbd.conf"
 
-    sed -i '/^ConfigFile=$/c\ConfigFile=Themes/dark_and_red.conf' /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
+    sed -i '/ConfigFile=/c\ConfigFile=Themes/dark_and_red.conf' /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
     echo "✅ Theme configuration updated in /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop"
     
     read -p "Would you like to set the login text fields to fully opaque? (I recommend doing so) (y/N)" response

@@ -53,4 +53,4 @@ thunar-volman
 exfatprogs
 wireshark-qt
 strace
-xsettingsd
+xsettingsdgparted
