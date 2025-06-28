@@ -67,7 +67,7 @@ if [ ! -d /usr/share/sddm/themes/sddm-astronaut-theme ]; then
     
     read -p "Would you like to set the login text fields to fully opaque? (I recommend doing so) (y/N)" response
     if [[ "$response" =~ ^[Yy]$ ]]; then
-        sed -i '/^opacity: 0.2$/c\opacity: 1' /usr/share/sddm/themes/sddm-astronaut-theme/Components/Input.qml
+        sed -i '/opacity: 0.2/c\opacity: 1' /usr/share/sddm/themes/sddm-astronaut-theme/Components/Input.qml
         echo "Input field opacity set to 1 (fully opaque)."
     else
         echo "Keeping default opacity (0.2)."
