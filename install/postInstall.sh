@@ -67,6 +67,7 @@ read -p "Do you want to copy the files for the root user? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     cp -r $USER_HOME/.dotfiles/root/* /root/
     cp -r $USER_HOME/.dotfiles/.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.zshrc /root/
 fi
 shopt -u dotglob nullglob
 
@@ -103,6 +104,8 @@ fi
 read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     sudo -u "$SUDO_USER" chsh -s /bin/zsh
+    chsh -s /bin/zsh
+    echo "✅ Zsh has been set as the default shell for the user $SUDO_USER and root."
 fi
 
 #Cusror theme

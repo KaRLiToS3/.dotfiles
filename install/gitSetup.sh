@@ -28,6 +28,9 @@ if ping -q -w 1 -c 1 8.8.8.8 > /dev/null; then
         read -p "Provide your email to generate a SSH key: " email
     done
 
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
+
     read -p "Key name? (default: id_ed25519): " key_name
     key_name=${key_name:-id_ed25519}
     ssh-keygen -t ed25519 -C "$email" -f ~/.ssh/$key_name -N "" && echo "SSH key:"
@@ -37,11 +40,6 @@ if ping -q -w 1 -c 1 8.8.8.8 > /dev/null; then
 
     ssh-add ~/.ssh/$key_name
     echo -e "\nSSH key added to the SSH agent."
-
-    # Cloning the dotfiles repository
-    git clone git@github.com:KaRLiToS3/.dotfiles.git ~
-
-    echo "Now access the directory ~/.dotfiles and run the postInstall.sh script to finish the setup."
     
 else
     echo "No internet connection. Please check your network settings."

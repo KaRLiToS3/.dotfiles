@@ -15,8 +15,6 @@ docker-compose
 neochat
 alacritty
 foot
-kdenlive
-code
 nmap
 hydra
 metasploit
@@ -54,3 +52,5 @@ exfatprogs
 wireshark-qt
 strace
 xsettingsdgparted
+pulseaudio
+noto-fonts-emoji

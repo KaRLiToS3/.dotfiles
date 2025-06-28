@@ -3,3 +3,4 @@ shell-color-scripts-git
 visual-studio-code-bin
 neofetch
 bibata-cursor-theme
+noto-fonts
