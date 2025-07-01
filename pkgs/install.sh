@@ -14,7 +14,7 @@ else
     USER_HOME="$HOME"
 fi
 
-echo "$SUDO_USER ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/01_yay_temp
+echo "$SUDO_USER ALL=(ALL) NOPASSWD: /usr/bin/pacman" >/etc/sudoers.d/01_yay_temp
 chmod 440 /etc/sudoers.d/01_yay_temp
 
 PKGS_DIR="$USER_HOME/.dotfiles/pkgs"
@@ -23,6 +23,12 @@ read -p "Do you want to install the filtered pacman packages? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     pacman -Syu
     while read -r line; do
+
+        # Skip lines that start with #, whitespace, or are empty
+        if [[ "$line" =~ ^[[:space:]]*[^a-zA-Z0-9[:space:]] ]] || [[ "$line" =~ ^[[:space:]]*$ ]]; then
+            continue
+        fi
+
         # Extract the package name (element 1) from each line
         pkg=${line%% *}
 
@@ -45,7 +51,10 @@ if ! pacman -Qi yay &>/dev/null; then
     chown -R "$SUDO_USER" "$PKGS_DIR/yay"
     chmod -R 764 "$PKGS_DIR/yay"
 
-    cd "$PKGS_DIR/yay" || { echo "❌ Failed to change directory to yay." >&2; exit 1; }
+    cd "$PKGS_DIR/yay" || {
+        echo "❌ Failed to change directory to yay." >&2
+        exit 1
+    }
     if sudo -u "$SUDO_USER" makepkg -si --noconfirm; then
         rm -rf "$PKGS_DIR/yay"
         echo "✅ yay installed successfully."
@@ -61,8 +70,14 @@ read -p "Do you want to install the AUR packages with yay? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     sudo -u "$SUDO_USER" yay -Syu
     while read -r line; do
+
+        # Skip lines that start with #, whitespace, or are empty
+        if [[ "$line" =~ ^[[:space:]]*[^a-zA-Z0-9[:space:]] ]] || [[ "$line" =~ ^[[:space:]]*$ ]]; then
+            continue
+        fi
+
         pkg=${line%% *}
-        
+
         if sudo -u "$SUDO_USER" yay -Qi "$pkg" &>/dev/null; then
             echo "$pkg is already installed."
         else
@@ -80,4 +95,3 @@ rm -f /etc/sudoers.d/01_yay_temp
 
 cd "$USER_HOME/.dotfiles"
 echo "✅ Done."
-

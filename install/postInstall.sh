@@ -81,14 +81,22 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     fi
 fi
 
-# --- CHECK AUDIO PROFILE --- TODO
-# echo "🔊 Checking audio profile..."
-# PROFILE="output:analog-stereo+input:analog-stereo"
+# --- CHECK AUDIO PROFILE ---
+read -p "Do you want to setup audio profile? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    echo "🔊 Checking audio profile..."
+    cp $USER_HOME/.dotfiles/audio/alsa-base.conf /etc/modprobe.d/alsa-base.conf
+    systemctl --user enable --now pipewire pipewire-pulse wireplumber
 
-# pactl list short cards | awk '{print $2}' | while read -r CARD; do
-#   echo "Applying profile '$PROFILE' to card $CARD"
-#   pactl set-card-profile "$CARD" "$PROFILE"
-# done
+    PROFILE="output:analog-stereo+input:analog-stereo"
+
+    pactl list short cards | awk '{print $2}' | while read -r CARD; do
+      echo "Applying profile '$PROFILE' to card $CARD"
+      pactl set-card-profile "$CARD" "$PROFILE"
+    done
+
+    mkinitcpio -P
+fi
 
 # Setup login and desktop environment
 read -p "Do you want to setup the login and desktop environment? (y/N) " answer

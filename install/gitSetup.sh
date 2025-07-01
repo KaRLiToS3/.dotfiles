@@ -40,7 +40,20 @@ if ping -q -w 1 -c 1 8.8.8.8 > /dev/null; then
 
     ssh-add ~/.ssh/$key_name
     echo -e "\nSSH key added to the SSH agent."
-    
+
+    read -p "Do you want to change the dotfiles repo from HTTPS to SSH? (y/n): " change_to_ssh
+
+    if [[ "$change_to_ssh" =~ ^[Yy]$ ]]; then
+        if cd ~/.dotfiles; then
+            git remote set-url origin git@github.com:KaRLiToS3/.dotfiles.git
+            echo "Repository URL changed to SSH."
+        else
+            echo "Failed to change directory to ~/.dotfiles. Please check if the directory exists."
+            exit 1
+        fi
+    else
+        echo "Repository URL unchanged."
+    fi
 else
     echo "No internet connection. Please check your network settings."
     exit 1

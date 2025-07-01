@@ -1,56 +1,94 @@
+# BASE SYSTEM
 base
 base-devel
 sudo
 zsh
+
+# DISPLAY MANAGER
 sddm
+
+# DEVELOPMENT TOOLS
 git
 wget
+
+# SYSTEM UTILITIES
 htop
 vim
 nano
 bat
 lsd
-docker
-docker-compose
-neochat
-alacritty
-foot
-nmap
-hydra
-metasploit
-kicad
-kicad-library
-kicad-library-3d
-hyprland
-supergfxctl
-hyprpaper
-thunar
-waybar
-grim
-slurp
-gnome-keyring
-seahorse
-network-manager-applet
-dunst 
 lm_sensors
-wl-clipboard
 i2c-tools
 psensor
 alsa-utils
 sof-firmware
-alsa-firmware
-alsa-tools
-wireplumber
-pavucontrol
+strace
+
+# CONTAINERIZATION
+docker
+docker-compose
+
+# COMMUNICATION
+neochat
+
+# TERMINALS
+alacritty
+foot
+
+# SECURITY/NETWORKING
+nmap
+hydra
+metasploit
+wireshark-qt
+
+# ELECTRONICS/CAD
+kicad
+kicad-library
+kicad-library-3d
+
+# WINDOW MANAGER
+hyprland
+supergfxctl
+hyprpaper
+waybar
 rofi-wayland
-libreoffice
 xdg-desktop-portal-hyprland
 xdg-desktop-portal-gtk
-ntfs-3g
+
+# FILE MANAGEMENT
+thunar
 thunar-volman
+
+# SCREENSHOT/CLIPBOARD
+grim
+slurp
+wl-clipboard
+
+# SYSTEM SERVICES
+gnome-keyring
+seahorse
+network-manager-applet
+dunst
+
+# OFFICE
+libreoffice
+
+# FILESYSTEM SUPPORT
+ntfs-3g
 exfatprogs
-wireshark-qt
-strace
-xsettingsdgparted
-pulseaudio
+
+# SYSTEM TOOLS
+gdparted
+
+# FONTS
 noto-fonts-emoji
+
+# AUDIO
+pavucontrol
+pipewire
+pipewire-pulse
+pipewire-alsa
+wireplumber
+alsa-lib
+
+# UNFILTERED

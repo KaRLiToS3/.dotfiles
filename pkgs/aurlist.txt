@@ -4,3 +4,4 @@ visual-studio-code-bin
 neofetch
 bibata-cursor-theme
 noto-fonts
+brave-bin

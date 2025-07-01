@@ -22,7 +22,13 @@ fi
 root_device=$(findmnt -no SOURCE "$MNT" | sed 's/[0-9]*$//')
 if ! parted "$root_device" print | grep -q "Partition Table: gpt"; then
   echo "❌ The disk $root_device is not using a GPT partition table. This script requires GPT for UEFI boot." >&2
-  exit 1
+  read -p "This verification might fail if there are other partitions on the disk. Do you want to continue anyway? (y/N) " answer
+  if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+    echo "Aborting installation." >&2
+    exit 1
+  else
+    echo "Continuing installation despite the warning."
+    echo "⚠️ If there are any issues I recommend wiping the linux filesystem partition and starting over using GTP partition table."
 fi
 
 if [ -e "$MNT/etc/arch-release" ]; then
@@ -108,6 +114,7 @@ echo "🔧 Installing GRUB bootloader..."
 
 arch-chroot "$MNT" bash -c "
   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+  sed -i 's/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub'
   grub-mkconfig -o /boot/grub/grub.cfg
 "
 echo "🔧 Preparing the timezone, users, passwords, etc."
@@ -143,16 +150,46 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   username=""
   user_password=""
 
-  while [[ -z "$root_password" || "$root_password" =~ [[:space:]] ]]; do
-    read -p "Provide the root password for the new system (no spaces, tabs, etc): " -s root_password
-    echo
+  while true; do
+    read -p "Provide the root password for the new system (no spaces, tabs, etc): " root_password
+    if [[ -z "$root_password" || "$root_password" =~ [[:space:]] ]]; then
+      echo "❌ Password cannot be empty or contain spaces. Please try again."
+      continue
+    fi
+    read -p "Confirm the root password: " root_password_confirm
+    if [[ "$root_password" == "$root_password_confirm" ]]; then
+      break
+    else
+      echo "❌ Passwords do not match. Please try again."
+    fi
   done
-  while [[ -z "$username" || "$username" =~ [[:space:]] ]]; do
+
+  while true; do
     read -p "Provide the username for the new user (no spaces, tabs, etc): " username
+    if [[ -z "$username" || "$username" =~ [[:space:]] ]]; then
+      echo "❌ Username cannot be empty or contain spaces. Please try again."
+      continue
+    fi
+    read -p "Confirm the username: " username_confirm
+    if [[ "$username" == "$username_confirm" ]]; then
+      break
+    else
+      echo "❌ Usernames do not match. Please try again."
+    fi
   done
-  while [[ -z "$user_password" || "$user_password" =~ [[:space:]] ]]; do
-    read -p "Provide the password for the new user (no spaces, tabs, etc): " -s user_password
-    echo
+
+  while true; do
+    read -p "Provide the password for the new user (no spaces, tabs, etc): " user_password
+    if [[ -z "$user_password" || "$user_password" =~ [[:space:]] ]]; then
+      echo "❌ Password cannot be empty or contain spaces. Please try again."
+      continue
+    fi
+    read -p "Confirm the user password: " user_password_confirm
+    if [[ "$user_password" == "$user_password_confirm" ]]; then
+      break
+    else
+      echo "❌ Passwords do not match. Please try again."
+    fi
   done
 
   arch-chroot "$MNT" useradd -m -G wheel,audio,video,input,storage,power -s /bin/bash "$username"
