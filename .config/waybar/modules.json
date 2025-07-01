@@ -191,5 +191,12 @@
             "deactivated": ""
         },
         "on-click-right": "hyprlock"        
+    },
+
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon10/temp1_input",
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C \uf2c9",
+        "on-click": "psensor"
     }
 }

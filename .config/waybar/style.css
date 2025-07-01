@@ -193,7 +193,7 @@ window#waybar.empty #window {
  * Hardware Group
  * ----------------------------------------------------- */
 
-#cpu, #memory, #disk, #language {
+#cpu, #temperature, #memory, #disk, #language {
     background-color: @backgroundlight;
     font-size: 20px;
     color: @iconcolor;
