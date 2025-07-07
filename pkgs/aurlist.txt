@@ -5,3 +5,4 @@ neofetch
 bibata-cursor-theme
 noto-fonts
 brave-bin
+wlogout

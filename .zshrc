@@ -19,27 +19,13 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 #Neofetch
 #neofetch
 
-########## AUTOCOMPLETION ############
+########## PLUGINS ############
+autoload -Uz compinit
+compinit
+fpath+=/usr/share/zsh/site-functions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-########## AUTOCOMPLETION ############
-
-
-########## SSH ############
-# Git SSH load Key
-# Cargar SSH Agent de forma persistente
-# export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
-# if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-#     eval "$(ssh-agent -a "$SSH_AUTH_SOCK" -s)" > /dev/null
-# fi
-
-#Añadir clave SSH solo si no está cargada
-if ! ssh-add -l &>/dev/null; then
-    ssh-add ~/.ssh/github < /dev/tty
-fi
-########## SSH ############
-
+########## PLUGINS ############
 
 ########## ALIAS ############
 

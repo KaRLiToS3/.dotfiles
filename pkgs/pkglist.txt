@@ -91,4 +91,5 @@ pipewire-alsa
 wireplumber
 alsa-lib
 
-# UNFILTERED
+# UNFILTEREDopenvpn
+zsh-completions

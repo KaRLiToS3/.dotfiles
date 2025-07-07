@@ -61,6 +61,9 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
             ln -sf "$dir" "$USER_HOME/$basename"
         fi
     done
+
+    #Change ownership of the .dotfiles directory
+    chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME"
 fi
 
 read -p "Do you want to copy the files for the root user? (y/N) " answer
@@ -79,6 +82,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     else
         echo "❌ The file $USER_HOME/.dotfiles/pkgs/install.sh doesn't exist." >&2
     fi
+    cp -r $USER_HOME/.dotfiles/pacman/pacman.conf /etc/pacman.conf
 fi
 
 # --- CHECK AUDIO PROFILE ---

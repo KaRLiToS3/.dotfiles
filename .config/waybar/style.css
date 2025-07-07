@@ -34,7 +34,7 @@ window#waybar {
  * ----------------------------------------------------- */
 
 #workspaces {
-    margin: 5px 1px 6px 1px;
+    margin: 5px 1px 5px 1px;
     padding: 0px 1px;
     border-radius: 15px;
     border: 0px;
@@ -46,11 +46,12 @@ window#waybar {
 
 #workspaces button {
     padding: 0px 5px;
-    margin: 4px 3px;
+    margin: 4px 4px;
     border-radius: 15px;
     border: 0px;
     color: @textcolor3;
     transition: all 0.3s ease-in-out;
+    min-height: 24px;
 }
 
 #workspaces button.active {
@@ -199,7 +200,7 @@ window#waybar.empty #window {
     color: @iconcolor;
     border-radius: 15px;
     margin: 10px 7px 10px 0px;
-    padding: 8px 10px 4px 10px;
+    padding: 6px 10px;
     min-height: 0;
 }
 

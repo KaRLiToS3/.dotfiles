@@ -194,7 +194,8 @@
     },
 
     "temperature": {
-        "hwmon-path": "/sys/class/hwmon/hwmon10/temp1_input",
+        "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+        "input-filename": "temp1_input",
         "critical-threshold": 80,
         "format": "{temperatureC}°C \uf2c9",
         "on-click": "psensor"
