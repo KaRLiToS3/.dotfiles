@@ -23,6 +23,7 @@ psensor
 alsa-utils
 sof-firmware
 strace
+less
 
 # CONTAINERIZATION
 docker
@@ -91,5 +92,6 @@ pipewire-alsa
 wireplumber
 alsa-lib
 
-# UNFILTEREDopenvpn
+# UNFILTERED
+openvpn
 zsh-completions
