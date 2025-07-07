@@ -95,3 +95,4 @@ alsa-lib
 # UNFILTERED
 openvpn
 zsh-completions
+man

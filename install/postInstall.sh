@@ -25,6 +25,25 @@ if ! ping -q -w 1 -c 1 8.8.8.8 > /dev/null; then
   exit 1
 fi
 
+# Install pacman packages
+read -p "Do you want to install the packages (you will be prompted to choose pacman and/or yay lists)? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    if [[ -f $USER_HOME/.dotfiles/pkgs/install.sh ]]; then
+        bash $USER_HOME/.dotfiles/pkgs/install.sh
+    else
+        echo "❌ The file $USER_HOME/.dotfiles/pkgs/install.sh doesn't exist." >&2
+    fi
+    cp -r $USER_HOME/.dotfiles/pacman/pacman.conf /etc/pacman.conf
+fi
+
+# Setup zsh
+read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    sudo -u "$SUDO_USER" chsh -s /bin/zsh
+    sudo -u "$SUDO_USER" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "✅ Zsh has been set as the default shell for the user $SUDO_USER and root."
+fi
+
 shopt -s dotglob nullglob
 read -p "Do you want to create all links to the files in the .dotfiles? WARNING: All previous config files will be removed (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
@@ -66,24 +85,19 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME"
 fi
 
+# root setup
 read -p "Do you want to copy the files for the root user? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
-    cp -r $USER_HOME/.dotfiles/root/* /root/
+    echo "Installing oh-my-zsh for root user..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    chsh -s /bin/zsh
+    echo "Copying files to root user..."
+
     cp -r $USER_HOME/.dotfiles/.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.p10k.zsh /root/
     cp -r $USER_HOME/.dotfiles/.zshrc /root/
 fi
 shopt -u dotglob nullglob
-
-# Install pacman packages
-read -p "Do you want to install the packages (you will be prompted to choose pacman and/or yay lists)? (y/N) " answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    if [[ -f $USER_HOME/.dotfiles/pkgs/install.sh ]]; then
-        bash $USER_HOME/.dotfiles/pkgs/install.sh
-    else
-        echo "❌ The file $USER_HOME/.dotfiles/pkgs/install.sh doesn't exist." >&2
-    fi
-    cp -r $USER_HOME/.dotfiles/pacman/pacman.conf /etc/pacman.conf
-fi
 
 # --- CHECK AUDIO PROFILE ---
 read -p "Do you want to setup audio profile? (y/N) " answer
@@ -110,14 +124,6 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     else
         echo "❌ The file $USER_HOME/.dotfiles/sddm/setup.sh doesn't exist." >&2
     fi
-fi
-
-# Setup zsh
-read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/N) " answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    sudo -u "$SUDO_USER" chsh -s /bin/zsh
-    chsh -s /bin/zsh
-    echo "✅ Zsh has been set as the default shell for the user $SUDO_USER and root."
 fi
 
 #Cusror theme
