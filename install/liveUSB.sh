@@ -29,6 +29,7 @@ if ! parted "$root_device" print | grep -q "Partition Table: gpt"; then
   else
     echo "Continuing installation despite the warning."
     echo "⚠️ If there are any issues I recommend wiping the linux filesystem partition and starting over using GTP partition table."
+  fi
 fi
 
 if [ -e "$MNT/etc/arch-release" ]; then
@@ -114,7 +115,7 @@ echo "🔧 Installing GRUB bootloader..."
 
 arch-chroot "$MNT" bash -c "
   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-  sed -i 's/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub'
+  sed -i 's/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
   grub-mkconfig -o /boot/grub/grub.cfg
 "
 echo "🔧 Preparing the timezone, users, passwords, etc."
