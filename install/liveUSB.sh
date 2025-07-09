@@ -204,7 +204,7 @@ fi
 read -p "Do you want to clone the github repo with the dotfiles? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
   echo "🔄 Cloning the dotfiles repository..."
-  arch-chroot "$MNT" su - $username -c "git clone https://github.com/KaRLiToS3/.dotfiles.git \"/home/$username/.dotfiles\""
+  arch-chroot "$MNT" su - $username -c "git clone --recurse-submodules https://github.com/KaRLiToS3/.dotfiles.git \"/home/$username/.dotfiles\""
   arch-chroot "$MNT" chown -R "$username:$username" "/home/$username/.dotfiles"
 fi
 

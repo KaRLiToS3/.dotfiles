@@ -41,7 +41,22 @@ read -p "Do you want to use zsh as the default shell (I recommend doing so)? (y/
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     sudo -u "$SUDO_USER" chsh -s /bin/zsh
     sudo -u "$SUDO_USER" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    ln -sf $USER_HOME/.dotfiles/oh-my-zsh/custom $USER_HOME/.oh-my-zsh/custom
     echo "✅ Zsh has been set as the default shell for the user $SUDO_USER and root."
+fi
+
+# root setup
+read -p "Do you want to copy the files for the root user? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    echo "Installing oh-my-zsh for root user..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    chsh -s /bin/zsh
+    echo "Copying files to root user..."
+
+    cp -r $USER_HOME/.oh-my-zsh /root/
+    cp -r $USER_HOME/.dotfiles/.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.p10k.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.zshrc /root/
 fi
 
 shopt -s dotglob nullglob
@@ -84,19 +99,6 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     #Change ownership of the .dotfiles directory
     chown -R "$SUDO_USER":"$SUDO_USER" "$USER_HOME"
 fi
-
-# root setup
-read -p "Do you want to copy the files for the root user? (y/N) " answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    echo "Installing oh-my-zsh for root user..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    chsh -s /bin/zsh
-    echo "Copying files to root user..."
-
-    cp -r $USER_HOME/.dotfiles/.zsh /root/
-    cp -r $USER_HOME/.dotfiles/.p10k.zsh /root/
-    cp -r $USER_HOME/.dotfiles/.zshrc /root/
-fi
 shopt -u dotglob nullglob
 
 # --- CHECK AUDIO PROFILE ---
@@ -110,7 +112,11 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 
     pactl list short cards | awk '{print $2}' | while read -r CARD; do
       echo "Applying profile '$PROFILE' to card $CARD"
-      pactl set-card-profile "$CARD" "$PROFILE"
+      if pactl set-card-profile "$CARD" "$PROFILE"; then
+        echo "✅ Successfully set profile '$PROFILE' for card $CARD"
+      else
+        echo "❌ Failed to set profile '$PROFILE' for card $CARD" >&2
+      fi
     done
 
     mkinitcpio -P
