@@ -44,20 +44,6 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     echo "✅ Zsh has been set as the default shell for the user $SUDO_USER and root."
 fi
 
-# root setup
-read -p "Do you want to copy the files for the root user? (y/N) " answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    echo "Installing oh-my-zsh for root user..."
-    chsh -s /bin/zsh
-    env RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    echo "Copying files to root user..."
-    cp -r $USER_HOME/.oh-my-zsh/custom /root/.oh-my-zsh/
-    cp -r $USER_HOME/.dotfiles/.zsh /root/
-    cp -r $USER_HOME/.dotfiles/.p10k.zsh /root/
-    cp -r $USER_HOME/.dotfiles/.zshrc /root/
-fi
-
 shopt -s dotglob nullglob
 read -p "Do you want to create all links to the files in the .dotfiles? WARNING: All previous config files will be removed (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
@@ -100,6 +86,20 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 fi
 shopt -u dotglob nullglob
 
+# root setup
+read -p "Do you want to copy the files for the root user? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    echo "Installing oh-my-zsh for root user..."
+    chsh -s /bin/zsh
+    env RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+    echo "Copying files to root user..."
+    cp -r $USER_HOME/.dotfiles/.oh-my-zsh/custom /root/.oh-my-zsh/
+    cp -r $USER_HOME/.dotfiles/.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.p10k.zsh /root/
+    cp -r $USER_HOME/.dotfiles/.zshrc /root/
+fi
+
 # --- CHECK AUDIO PROFILE ---
 read -p "Do you want to setup audio profile? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
@@ -109,9 +109,9 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 
     PROFILE="output:analog-stereo+input:analog-stereo"
 
-    pactl list short cards | awk '{print $2}' | while read -r CARD; do
+    sudo -u "$SUDO_USER" pactl list short cards | awk '{print $2}' | while read -r CARD; do
       echo "Applying profile '$PROFILE' to card $CARD"
-      if pactl set-card-profile "$CARD" "$PROFILE"; then
+      if sudo -u "$SUDO_USER" pactl set-card-profile "$CARD" "$PROFILE"; then
         echo "✅ Successfully set profile '$PROFILE' for card $CARD"
       else
         echo "❌ Failed to set profile '$PROFILE' for card $CARD" >&2

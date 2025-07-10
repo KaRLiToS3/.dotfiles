@@ -111,6 +111,8 @@ else
   echo "✅ Generic Kernel settings are now installed."
 fi
 
+arch-chroot "$MNT" bash -c "mkinitcpio -P"
+
 echo "🔧 Installing GRUB bootloader..."
 
 arch-chroot "$MNT" bash -c "
