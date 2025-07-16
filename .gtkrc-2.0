@@ -9,4 +9,5 @@ gtk-cursor-theme-name="Bibata-Modern-Classic"
 gtk-sound-theme-name="ocean"
 gtk-icon-theme-name="Tela-circle-red"
 gtk-font-name="Noto Sans Thai Looped Medium,  12"
+gtk-enable-primary-paste=0
 

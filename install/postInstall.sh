@@ -105,7 +105,7 @@ read -p "Do you want to setup audio profile? (y/N) " answer
 if [[ "$answer" =~ ^[Yy]$ ]]; then
     echo "🔊 Checking audio profile..."
     cp $USER_HOME/.dotfiles/audio/alsa-base.conf /etc/modprobe.d/alsa-base.conf
-    systemctl --user enable --now pipewire pipewire-pulse wireplumber
+    sudo -u "$SUDO_USER" systemctl --user enable --now pipewire pipewire-pulse wireplumber
 
     PROFILE="output:analog-stereo+input:analog-stereo"
 
@@ -129,6 +129,12 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
     else
         echo "❌ The file $USER_HOME/.dotfiles/sddm/setup.sh doesn't exist." >&2
     fi
+fi
+
+# Thunar setup
+read -p "Do you want to setup Thunar? (y/N) " answer
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    sudo -u "$SUDO_USER" gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-red'
 fi
 
 #Cusror theme

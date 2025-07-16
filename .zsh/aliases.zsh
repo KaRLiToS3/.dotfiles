@@ -5,6 +5,8 @@ alias cat='bat'
 alias ll='ls -al'
 alias easyeda2kicad='source ~/Projects/venv/easyeda-env/bin/activate && easyeda2kicad'
 alias sync-zsh-root='sudo cp ~/.zshrc /root/ && sudo cp -r ~/.zsh /root/ && sudo cp -r ~/.oh-my-zsh /root/ && sudo chown -R root:root /root/.zsh /root/.zshrc /root/.oh-my-zsh'
+alias wmount='udisksctl mount -b /dev/nvme0n1p3'
+alias wumount='udisksctl unmount -b /dev/nvme0n1p3'
 
 kicadcomponent() {
     for arg in "$@"; do

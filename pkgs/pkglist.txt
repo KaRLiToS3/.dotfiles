@@ -96,3 +96,7 @@ alsa-lib
 openvpn
 zsh-completions
 man
+udiskie
+android-studio
+blender
+wl-copy
