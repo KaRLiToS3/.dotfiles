@@ -81,6 +81,16 @@ exfatprogs
 # SYSTEM TOOLS
 gdparted
 
+# THEMES AND APPEARANCE
+adwaita-qt5
+adwaita-qt6
+qt5ct
+qt6ct
+kvantum
+kvantum-qt5
+papirus-icon-theme
+gtk-engine-murrine
+
 # FONTS
 noto-fonts-emoji
 
@@ -100,3 +110,15 @@ udiskie
 android-studio
 blender
 wl-copy
+nasm
+qemu-base
+xorriso
+mtools
+realvnc-vnc-viewer
+qt5ct
+wayland
+qt5-wayland
+qt6-wayland
+python-pip
+gnome-calculator
+eog
