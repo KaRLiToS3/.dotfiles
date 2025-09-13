@@ -122,3 +122,6 @@ qt6-wayland
 python-pip
 gnome-calculator
 eog
+bluez
+bluez-utils
+blueman

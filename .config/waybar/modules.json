@@ -149,8 +149,8 @@
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
         "format": "{icon}  {volume}%",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon}  {format_source}",
+        "format-bluetooth-muted": " {icon}  {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
@@ -167,13 +167,13 @@
     },
 
     // Bluetooth
-    "bluetooth": {
-        "format-disabled": "",
-        "format-off": "",
-        "interval": 30,
-        "on-click": "blueman-manager",
-        "format-no-controller": ""
-    },
+    // "bluetooth": {
+    //     "format-disabled": "",
+    //     "format-off": "",
+    //     "interval": 30,
+    //     "on-click": "blueman-manager",
+    //     "format-no-controller": ""
+    // },
 
     // Other
     "user": {
@@ -199,5 +199,12 @@
         "critical-threshold": 80,
         "format": "{temperatureC}°C \uf2c9",
         "on-click": "psensor"
+    },
+
+    "bluetooth": {
+        "format": " 󰂯 ",
+        "tooltip": true,
+        "tooltip-format": "Configuración de Bluetooth",
+        "on-click": "blueman-manager"
     }
 }
