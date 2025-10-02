@@ -125,3 +125,4 @@ eog
 bluez
 bluez-utils
 bluemanttf-nerd-fonts-symbols
+netctl

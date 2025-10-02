@@ -76,13 +76,13 @@
 
     // CPU
     "cpu": {
-        "format": "CPU {usage}% ",
+        "format": "CPU {usage}%",
         "on-click": "alacritty -e htop"
     },
 
     // Memory
     "memory": {
-        "format": "RAM {}% ",
+        "format": "RAM {}%",
         "on-click": "alacritty -e htop"
     },
 
