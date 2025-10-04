@@ -10,15 +10,15 @@ alias wumount='udisksctl unmount -b /dev/nvme0n1p3'
 
 kicadcomponent() {
     # Change the location anytime when switching projects
-    # local default_output_location="$HOME/Proyectos/UDMT/esp32-schematic/lib/easyeda2kicad/easyeda2kicad"
-    local default_output_location="$HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/lib/easyeda2kicad/easyeda2kicad"
+    local default_output_location="$HOME/Proyectos/UDMT/esp32-schematic/lib/easyeda2kicad/easyeda2kicad"
+    # local default_output_location="$HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/lib/easyeda2kicad/easyeda2kicad"
     # Location of the VENV, modify it aswell for other projects
-    # source $HOME/Proyectos/UDMT/esp32-schematic/.venv/bin/activate
-    source $HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/.venv/bin/activate
+    source $HOME/Proyectos/UDMT/esp32-schematic/.venv/bin/activate
+    # source $HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/.venv/bin/activate
 
     show_help() {
-        echo "Usage: kicadcomponent <lcsc_id> <name_for_index>
-Example: kicadcomponent C12345 10K-resistor
+        echo "Usage: kicadcomponent <lcsc_id>
+Example: kicadcomponent C12345
 
 This command downloads a component from EasyEDA and converts it to KiCad format.
 The component will be saved to a fixed default location:
@@ -31,14 +31,9 @@ The output files will be:
 
 Parameters:
   <lcsc_id>        - Required: LCSC component ID (e.g., C12345)
-  <name_for_index> - Optional: Human-readable name for the component
-                     Used to create an entry in index.txt for easy reference
                      
 Example usage:
-  kicadcomponent C12345 10K-resistor
-  
-This will create an entry in index.txt like:
-  'Symbol name : RC0603FR-0710KL is a 10K-resistor'
+  kicadcomponent C12345
 "
     }
 
@@ -72,23 +67,6 @@ This will create an entry in index.txt like:
     fi
     
     echo "$output"
-
-    if [[ -z "$2" ]]; then
-        echo "No name provided for index.txt, skipping index entry."
-        deactivate
-        return 0
-    fi
-
-    local index_file="${default_output_location%/*}/index.txt"
-
-    if [[ ! -f "$index_file" ]]; then
-        printf "# Here are the Footprint names of the components, which may be repeated, since they use the same footprint\n\n" > "$index_file"
-    fi
-
-    local symbol_line=$(echo "$output" | grep -i 'Footprint name:' | head -1 | sed 's/^[[:space:]]*//')
-    
-    # Create index file if it doesn't exist and append entry
-    echo "$symbol_line is a $2" >> "$index_file"
     deactivate
 }
 

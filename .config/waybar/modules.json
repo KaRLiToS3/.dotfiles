@@ -206,5 +206,16 @@
         "tooltip": true,
         "tooltip-format": "Configuración de Bluetooth",
         "on-click": "blueman-manager"
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕", "☀️", "🔆", "💡", "🌟"],
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+        "min-length": 6,
+        "on-click": "brightnessctl set 40%",
+        "tooltip": true,
+        "tooltip-format": "Brightness: {percent}%\nClick to set 50%\nScroll to adjust"
     }
 }

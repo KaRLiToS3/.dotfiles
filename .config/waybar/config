@@ -15,6 +15,7 @@
     ],    
     "modules-left": [
         "custom/appmenu",
+        "backlight",
         "group/quicklinks",
         "hyprland/window"
     ],
