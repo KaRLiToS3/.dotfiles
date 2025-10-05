@@ -17,8 +17,10 @@ kicadcomponent() {
     # source $HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/.venv/bin/activate
 
     show_help() {
-        echo "Usage: kicadcomponent <lcsc_id>
+        echo "Usage: kicadcomponent [OPTIONS] <lcsc_id>
 Example: kicadcomponent C12345
+         kicadcomponent --3d C12345
+         kicadcomponent --footprint C12345
 
 This command downloads a component from EasyEDA and converts it to KiCad format.
 The component will be saved to a fixed default location:
@@ -31,37 +33,70 @@ The output files will be:
 
 Parameters:
   <lcsc_id>        - Required: LCSC component ID (e.g., C12345)
+
+Options:
+  --3d             - Download only the 3D model
+  --footprint      - Download only the footprint
+  --symbol         - Download only the symbol
+  -h, --help       - Show this help message
                      
 Example usage:
-  kicadcomponent C12345
+  kicadcomponent C12345           # Download full component
+  kicadcomponent --3d C12345      # Download only 3D model
+  kicadcomponent --footprint C12345  # Download only footprint
+  kicadcomponent --symbol C12345     # Download only symbol
 "
     }
+
+    local output=""
+    local exit_code=0
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -h|--help)
                 show_help
-                deactivate
                 return 0
                 ;;
+            --3d)
+                output=$(easyeda2kicad --3d --overwrite --lcsc_id="$2" --output="$default_output_location" 2>&1)
+                exit_code=$?
+                break
+                ;;
+            --footprint)
+                output=$(easyeda2kicad --footprint --overwrite --lcsc_id="$2" --output="$default_output_location" 2>&1)
+                exit_code=$?
+                break
+                ;;
+            --symbol)
+                output=$(easyeda2kicad --symbol --overwrite --lcsc_id="$2" --output="$default_output_location" 2>&1)
+                exit_code=$?
+                break
+                ;;
             -*)
-                echo "Unknown option: $1" >&2
-                deactivate
+                echo -e "\033[31mUnknown option: $1\033[0m" >&2
+                show_help
                 return 1
                 ;;
             *)
-                # Found first non-option argument, break to process positional args
+                # Default case: full download
+                output=$(easyeda2kicad --full --overwrite --lcsc_id="$1" --output="$default_output_location" 2>&1)
+                exit_code=$?
                 break
                 ;;
         esac
-        shift
     done
 
-    local output=$(easyeda2kicad --full --overwrite --lcsc_id="$1" --output="$default_output_location" 2>&1)
-    local exit_code=$?
+    if [[ -z "$output" ]]; then
+        echo -e "\033[31mError: No LCSC ID provided\033[0m \n" >&2
+        show_help
+        deactivate
+        return 1
+    fi
     
     if [[ $exit_code -ne 0 ]]; then
-        echo "Error: easyeda2kicad command failed with exit code $exit_code"
+        echo -e "\033[31mError: easyeda2kicad command failed with exit code $exit_code"
+        echo -e "$output\033[0m\n"
+        show_help
         deactivate
         return 1
     fi
