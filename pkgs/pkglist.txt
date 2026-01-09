@@ -127,3 +127,4 @@ bluez-utils
 bluemanttf-nerd-fonts-symbols
 netctl
 brightnessctl
+nwg-look

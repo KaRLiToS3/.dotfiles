@@ -7,6 +7,7 @@ alias ll='ls -al'
 alias sync-zsh-root='sudo cp ~/.zshrc /root/ && sudo cp -r ~/.zsh /root/ && sudo cp -r ~/.oh-my-zsh /root/ && sudo chown -R root:root /root/.zsh /root/.zshrc /root/.oh-my-zsh'
 alias wmount='udisksctl mount -b /dev/nvme0n1p3'
 alias wumount='udisksctl unmount -b /dev/nvme0n1p3'
+alias arduino-ide='arduino-ide --ozone-platform=x11'
 
 kicadcomponent() {
     # Change the location anytime when switching projects
