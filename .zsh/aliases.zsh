@@ -25,7 +25,7 @@ Example: kicadcomponent C12345
 
 This command downloads a component from EasyEDA and converts it to KiCad format.
 The component will be saved to a fixed default location:
-  $default_output_location
+$default_output_location
 
 The output files will be:
   - easyeda2kicad.pretty (footprint library)
