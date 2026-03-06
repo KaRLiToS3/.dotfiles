@@ -1,0 +1,2 @@
+".*"
+None,      Button2,  Exec, ~/scripts/scroll-toggle.sh
