@@ -6,7 +6,6 @@ burpsuite
 i386-elf-gcc
 intellij-idea-ultimate-edition
 neofetch
-postman-bin
 realvnc-vnc-viewer
 shell-color-scripts-git
 visual-studio-code-bin

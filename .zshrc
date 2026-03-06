@@ -6,6 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export ZSH="$HOME/.oh-my-zsh"
+export EDITOR=nano
+export VISUAL="$EDITOR"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git sudo zsh-autosuggestions zsh-syntax-highlighting encode64)
 source $ZSH/oh-my-zsh.sh

@@ -16,6 +16,7 @@ breeze-gtk
 brightnessctl
 cmake
 cpio
+cronie
 curl
 docker
 docker-compose
@@ -25,6 +26,7 @@ eog
 exfatprogs
 firefox
 foot
+fwupd
 git
 glaze
 gnome-calculator
@@ -55,11 +57,14 @@ linux-lts-headers
 lsd
 lxappearance
 man-db
+maven
 metasploit
+mpv
 mtools
 nano
 nasm
 nemo
+nemo-fileroller
 neochat
 netctl
 network-manager-applet
