@@ -20,6 +20,7 @@ cronie
 curl
 docker
 docker-compose
+drawing
 dunst
 efibootmgr
 eog
@@ -57,6 +58,7 @@ linux-lts-headers
 lsd
 lxappearance
 man-db
+mariadb
 maven
 metasploit
 mpv
@@ -127,6 +129,7 @@ texlive-plaingeneric
 texlive-pstricks
 texlive-publishers
 texlive-xetex
+tree
 ttf-nerd-fonts-symbols
 udiskie
 uwsm

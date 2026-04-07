@@ -1,0 +1,6 @@
+[Unit]
+Description=Vaciar contenido de la carpeta temporal
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/find /home/Carlos/Imágenes/screenshots -mindepth 1 -delete
