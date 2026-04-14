@@ -1,1 +1,6 @@
 Update the links for folders inside .config, some like systemd are not tracked.
+
+Add pacman hooks to de auto install
+
+Change colors for the autocompletion in the terminal
+

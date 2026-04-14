@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Remove
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Actualizando pkglist (Repo) y aurlist (AUR)...
+When = PostTransaction
+Exec = /bin/sh -c '/usr/bin/pacman -Qnqe > /home/Carlos/.dotfiles/pkgs/pkglist.txt && /usr/bin/pacman -Qmqe > /home/Carlos/.dotfiles/pkgs/aurlist.txt && chown Carlos:Carlos /home/Carlos/.dotfiles/pkgs/*.txt'
