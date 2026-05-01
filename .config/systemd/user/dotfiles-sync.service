@@ -1,0 +1,13 @@
+[Unit]
+Description=Sincronización semanal del repositorio dotfiles vía agente Claude
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/Carlos/.dotfiles
+# SSH_AUTH_SOCK must be explicit — systemd user units don't inherit the
+# interactive-shell environment.  gpg-agent acts as the SSH agent here.
+Environment=SSH_AUTH_SOCK=/run/user/%U/gnupg/S.gpg-agent.ssh
+ExecStart=/bin/bash /home/Carlos/.dotfiles/.config/systemd/user/gitAutoSync.sh
+
+[Install]
+WantedBy=default.target

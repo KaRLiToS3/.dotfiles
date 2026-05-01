@@ -8,6 +8,7 @@ intellij-idea-ultimate-edition
 neofetch
 realvnc-vnc-viewer
 shell-color-scripts-git
+supergfxctl
 visual-studio-code-bin
 wlogout
 wlogout-debug

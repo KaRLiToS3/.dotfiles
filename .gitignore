@@ -1,1 +1,40 @@
-.git
+# Editor / system backups
+*.bak
+*.bak.*
+*~
+*.swp
+*.swo
+*.orig
+.DS_Store
+
+# Runtime state from tracked apps
+.config/htop/htop_history
+
+# Logs
+*.log
+**/logs/
+
+# Shell / REPL histories
+.zsh_history
+.bash_history
+.python_history
+.node_repl_history
+.lesshst
+.viminfo
+
+# Secrets — never commit these
+.env
+.env.*
+*.token
+*.secret
+credentials.json
+secrets/
+
+# Claude Code local artifacts (project-level agents stay tracked)
+.claude/cache/
+.claude/sessions/
+
+# systemd-managed (runtime state, host-specific symlinks)
+.config/systemd/user/timers.target.wants/
+.config/systemd/user/sockets.target.wants/
+.config/systemd/user/default.target.wants/

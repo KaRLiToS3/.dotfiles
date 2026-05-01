@@ -26,6 +26,7 @@ efibootmgr
 eog
 exfatprogs
 firefox
+fnm
 foot
 fwupd
 git
@@ -72,6 +73,7 @@ netctl
 network-manager-applet
 networkmanager
 nmap
+nodejs
 noto-fonts
 noto-fonts-emoji
 ntfs-3g
@@ -101,7 +103,6 @@ slurp
 sof-firmware
 strace
 sudo
-supergfxctl
 swayidle
 switcheroo-control
 tela-circle-icon-theme-red

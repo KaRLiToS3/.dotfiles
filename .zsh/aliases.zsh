@@ -12,9 +12,11 @@ alias arduino-ide='arduino-ide --ozone-platform=x11'
 kicadcomponent() {
     # Change the location anytime when switching projects
     local default_output_location="$HOME/Proyectos/UDMT/esp32-schematic/lib/easyeda2kicad/easyeda2kicad"
+    # local default_output_location="$HOME/Proyectos/Instrumentacion/lib/easyeda2kicad/easyeda2kicad"
     # local default_output_location="$HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/lib/easyeda2kicad/easyeda2kicad"
     # Location of the VENV, modify it aswell for other projects
     source $HOME/Proyectos/UDMT/esp32-schematic/.venv/bin/activate
+    # source $HOME/Proyectos/Instrumentacion/.venv/bin/activate
     # source $HOME/Proyectos/Robotica/COCHE/car-pcb-schematics/.venv/bin/activate
 
     show_help() {
