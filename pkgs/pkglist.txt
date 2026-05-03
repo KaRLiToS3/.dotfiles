@@ -30,6 +30,7 @@ fnm
 foot
 fwupd
 git
+github-cli
 glaze
 gnome-calculator
 gnome-keyring

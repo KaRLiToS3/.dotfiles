@@ -1,5 +1,5 @@
 [Unit]
-Description=Sincronización semanal del repositorio dotfiles vía agente Claude
+Description=AutoSync of the dotfiles repo
 
 [Service]
 Type=oneshot
