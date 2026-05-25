@@ -38,3 +38,5 @@ for config in ~/.zsh/*.zsh; do
         source "$config"
     fi
 done
+# Created by `pipx` on 2026-05-21 17:47:49
+export PATH="$PATH:/home/Carlos/.local/bin"

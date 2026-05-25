@@ -89,7 +89,9 @@ pipewire-pulse
 power-profiles-daemon
 psensor
 python-dbus
+python-openai-whisper
 python-pip
+python-pipx
 qemu-base
 qt5-wayland
 qt5ct
