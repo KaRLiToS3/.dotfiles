@@ -1,5 +1,4 @@
 android-studio
-arduino-ide
 bibata-cursor-theme
 brave-bin
 burpsuite
