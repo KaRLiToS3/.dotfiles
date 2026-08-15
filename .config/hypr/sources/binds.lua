@@ -96,9 +96,11 @@ hl.define_submap("resize", function()
     hl.bind("down",  hl.dsp.window.resize({ x =   0, y =  40, relative = true }), step)
     hl.bind("up",    hl.dsp.window.resize({ x =   0, y = -40, relative = true }), step)
 
+    -- Nada de "catchall" aquí: Hyprland solo marca el evento como consumido
+    -- (found = true) para binds con handler "submap", así que un catchall
+    -- co-dispara con las flechas y cerraría el modo en la primera pulsación.
     hl.bind("escape", hl.dsp.submap("reset"))
-    -- Red de seguridad: cualquier tecla no vinculada sale del modo
-    hl.bind("catchall", hl.dsp.submap("reset"))
+    hl.bind("Return", hl.dsp.submap("reset"))
 end)
 
 ------------------
