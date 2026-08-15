@@ -51,15 +51,53 @@ hl.bind(mainMod .. " + T", hl.dsp.window.pin())
 hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.window.set_prop({ prop = "opacity", value = "1.0" }))
 hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.set_prop({ prop = "opacity", value = "0.7" }))
 
+-- Alternar el eje de división (solo dwindle)
+hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
+
 -- Mover el foco con las flechas
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
+-- Recolocar la ventana dentro del layout
+hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.move({ direction = "left" }))
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
+
 -- Mover / redimensionar con SUPER + botón del ratón
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+-----------------------------
+---- GRUPOS (pestañas) ----
+-----------------------------
+-- Apila ventanas en una sola con barra de pestañas
+
+hl.bind(mainMod .. " + G",            hl.dsp.group.toggle())
+hl.bind(mainMod .. " + bracketright", hl.dsp.group.next())
+hl.bind(mainMod .. " + bracketleft",  hl.dsp.group.prev())
+
+------------------------
+---- MODO REDIMENSIÓN ----
+------------------------
+-- SUPER+S entra; flechas ajustan; escape (o cualquier otra tecla) sale
+
+hl.bind(mainMod .. " + S", hl.dsp.submap("resize"))
+
+hl.define_submap("resize", function()
+    local step = { repeating = true }
+
+    hl.bind("right", hl.dsp.window.resize({ x =  40, y =   0, relative = true }), step)
+    hl.bind("left",  hl.dsp.window.resize({ x = -40, y =   0, relative = true }), step)
+    hl.bind("down",  hl.dsp.window.resize({ x =   0, y =  40, relative = true }), step)
+    hl.bind("up",    hl.dsp.window.resize({ x =   0, y = -40, relative = true }), step)
+
+    hl.bind("escape", hl.dsp.submap("reset"))
+    -- Red de seguridad: cualquier tecla no vinculada sale del modo
+    hl.bind("catchall", hl.dsp.submap("reset"))
+end)
 
 ------------------
 ---- WORKSPACES ----

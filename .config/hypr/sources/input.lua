@@ -29,3 +29,18 @@ hl.device({
     name        = "hp-hp-pavilion-gaming-mouse-200",
     sensitivity = -0.3,
 })
+
+---------------
+---- GESTOS ----
+---------------
+-- Docs: https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/
+
+-- 3 dedos en horizontal: cambiar de workspace (animación 1:1)
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+-- 4 dedos en vertical: pantalla completa / flotante
+hl.gesture({ fingers = 4, direction = "up",   action = "fullscreen" })
+hl.gesture({ fingers = 4, direction = "down", action = "float" })
+
+-- Pellizcar hacia dentro: abrir el scratchpad
+hl.gesture({ fingers = 3, direction = "pinchin", action = "special", workspace_name = "hidden" })
