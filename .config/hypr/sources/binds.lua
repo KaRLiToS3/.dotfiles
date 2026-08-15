@@ -79,11 +79,11 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
 
--- Navegar entre pestañas. En layout español [ y ] están en el nivel AltGr
--- (AltGr+` y AltGr++), así que SUPER+[ sería SUPER+AltGr+`: se dejan por
--- compatibilidad, pero el par usable es Av/Re Pág.
-hl.bind(mainMod .. " + Prior", hl.dsp.group.prev()) -- Re Pág
-hl.bind(mainMod .. " + Next",  hl.dsp.group.next()) -- Av Pág
+-- Navegar entre pestañas con ´ y +, ambas de pulsación directa en el layout
+-- español. En él [ y ] viven en el nivel AltGr (AltGr+` y AltGr++), así que
+-- SUPER+[ exigiría SUPER+AltGr+`; se dejan por si se usa otro layout.
+hl.bind(mainMod .. " + dead_acute", hl.dsp.group.prev()) -- tecla ´
+hl.bind(mainMod .. " + plus",       hl.dsp.group.next()) -- tecla +
 
 hl.bind(mainMod .. " + bracketleft",  hl.dsp.group.prev())
 hl.bind(mainMod .. " + bracketright", hl.dsp.group.next())
