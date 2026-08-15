@@ -40,9 +40,40 @@ hl.device({
 -- 3 dedos en horizontal: cambiar de workspace (animación 1:1)
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
--- 4 dedos en vertical: pantalla completa / flotante
-hl.gesture({ fingers = 4, direction = "up",   action = "fullscreen" })
-hl.gesture({ fingers = 4, direction = "down", action = "float" })
+-- 4 dedos arriba: maximizar en lugar de pantalla completa. "fullscreen"
+-- tapa las capas (waybar incluida); "maximize" respeta el espacio reservado.
+hl.gesture({ fingers = 4, direction = "up", action = "fullscreen", mode = "maximize" })
+
+-- 4 dedos abajo: alternar flotante con un tamaño razonable.
+-- La acción "float" integrada llama a changeFloatingMode, que hereda el
+-- tamaño tiled y en esta pantalla queda enorme, así que se usa una función.
+local FLOAT_RATIO = 0.6
+
+hl.gesture({
+    fingers   = 4,
+    direction = "down",
+    action    = function()
+        local w = hl.get_active_window()
+        if w == nil then return end
+
+        if w.floating then
+            hl.dispatch(hl.dsp.window.float({ action = "off" }))
+            return
+        end
+
+        hl.dispatch(hl.dsp.window.float({ action = "on" }))
+
+        local m = hl.get_active_monitor()
+        if m == nil then return end
+
+        -- width/height son físicos; el tamaño de ventana es lógico
+        hl.dispatch(hl.dsp.window.resize({
+            x = math.floor(m.width  / m.scale * FLOAT_RATIO),
+            y = math.floor(m.height / m.scale * FLOAT_RATIO),
+        }))
+        hl.dispatch(hl.dsp.window.center())
+    end,
+})
 
 -- Pellizcar hacia dentro: abrir el scratchpad
 hl.gesture({ fingers = 3, direction = "pinchin", action = "special", workspace_name = "hidden" })
