@@ -40,9 +40,24 @@ hl.device({
 -- 3 dedos en horizontal: cambiar de workspace (animación 1:1)
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
--- 4 dedos arriba: maximizar en lugar de pantalla completa. "fullscreen"
--- tapa las capas (waybar incluida); "maximize" respeta el espacio reservado.
-hl.gesture({ fingers = 4, direction = "up", action = "fullscreen", mode = "maximize" })
+-- 4 dedos arriba: maximizar (no "fullscreen", que taparía waybar).
+-- Si la ventana está flotante se devuelve a mosaico primero, para que al
+-- desmaximizar vuelva al layout y no al tamaño flotante.
+hl.gesture({
+    fingers   = 4,
+    direction = "up",
+    action    = function()
+        local w = hl.get_active_window()
+        if w == nil then return end
+
+        if w.floating then
+            hl.dispatch(hl.dsp.window.float({ action = "off" }))
+        end
+
+        -- ojo: aquí el modo es "maximized", no "maximize" como en el gesto
+        hl.dispatch(hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
+    end,
+})
 
 -- 4 dedos abajo: alternar flotante con un tamaño razonable.
 -- La acción "float" integrada llama a changeFloatingMode, que hereda el
