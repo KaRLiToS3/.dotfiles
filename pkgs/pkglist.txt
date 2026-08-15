@@ -18,6 +18,7 @@ cmake
 cpio
 cronie
 curl
+darktable
 docker
 docker-compose
 drawing
@@ -137,7 +138,6 @@ ttf-nerd-fonts-symbols
 udiskie
 uwsm
 vim
-waybar
 wev
 wget
 wireplumber

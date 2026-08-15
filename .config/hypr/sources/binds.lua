@@ -77,9 +77,16 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -----------------------------
 -- Apila ventanas en una sola con barra de pestañas
 
-hl.bind(mainMod .. " + G",            hl.dsp.group.toggle())
-hl.bind(mainMod .. " + bracketright", hl.dsp.group.next())
+hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
+
+-- Navegar entre pestañas. En layout español [ y ] están en el nivel AltGr
+-- (AltGr+` y AltGr++), así que SUPER+[ sería SUPER+AltGr+`: se dejan por
+-- compatibilidad, pero el par usable es Av/Re Pág.
+hl.bind(mainMod .. " + Prior", hl.dsp.group.prev()) -- Re Pág
+hl.bind(mainMod .. " + Next",  hl.dsp.group.next()) -- Av Pág
+
 hl.bind(mainMod .. " + bracketleft",  hl.dsp.group.prev())
+hl.bind(mainMod .. " + bracketright", hl.dsp.group.next())
 
 ------------------------
 ---- MODO REDIMENSIÓN ----

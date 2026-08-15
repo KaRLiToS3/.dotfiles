@@ -34,6 +34,9 @@ secrets/
 .claude/cache/
 .claude/sessions/
 
+# VS Code
+.venv/
+
 # systemd-managed (runtime state, host-specific symlinks)
 .config/systemd/user/timers.target.wants/
 .config/systemd/user/sockets.target.wants/
