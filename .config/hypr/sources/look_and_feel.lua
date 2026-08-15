@@ -18,6 +18,11 @@ hl.config({
         -- Redimensionar ventanas arrastrando bordes y gaps
         resize_on_border = false,
 
+        -- Las ventanas flotantes se imantan entre sí y a los bordes
+        snap = {
+            enabled = true,
+        },
+
         -- Ver https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/
         allow_tearing = false,
 
@@ -88,8 +93,36 @@ hl.config({
         new_status = "master",
     },
 
+    dwindle = {
+        -- Sin esto el layout recalcula la orientación y "salta" al abrir ventanas
+        preserve_split = true,
+        smart_resizing = true,
+    },
+
+    binds = {
+        -- Pulsar de nuevo el número del workspace actual vuelve al anterior
+        workspace_back_and_forth    = true,
+        movefocus_cycles_fullscreen = true,
+    },
+
     misc = {
         force_default_wallpaper = -1,
         disable_hyprland_logo   = true,
     },
+})
+
+-------------------
+---- SMART GAPS ----
+-------------------
+-- Con una sola ventana en el workspace, quita gaps, borde y redondeo.
+-- Las dos reglas van juntas: la de workspace mata los gaps y la de
+-- ventana el borde y el redondeo.
+
+hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+
+hl.window_rule({
+    name        = "no-gaps-single-window",
+    match       = { float = false, workspace = "w[tv1]" },
+    border_size = 0,
+    rounding    = 0,
 })

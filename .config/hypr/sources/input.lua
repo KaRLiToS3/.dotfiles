@@ -8,6 +8,8 @@ hl.config({
         kb_layout = "es",
 
         follow_mouse = 1,
+        -- Evita saltos de foco por microtemblores del ratón
+        follow_mouse_threshold = 3,
 
         sensitivity = 0.7, -- -1.0 a 1.0, 0 = sin modificación
 

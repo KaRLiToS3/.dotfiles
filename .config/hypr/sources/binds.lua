@@ -156,3 +156,28 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 -- Clic central: pega la selección primaria
 hl.bind("mouse:274", hl.dsp.exec_cmd("wl-copy -pc"), { non_consuming = true })
+
+-----------------------
+---- MODO CONCENTRACIÓN ----
+-----------------------
+-- Alterna los gaps en caliente leyendo el valor actual con hl.get_config()
+
+hl.bind(mainMod .. " + SHIFT + G", function()
+    local gaps   = hl.get_config("general.gaps_in")
+    local activo = gaps.top ~= 0
+
+    hl.config({
+        general = {
+            gaps_in  = activo and 0 or 5,
+            gaps_out = activo and 0 or 20,
+        },
+    })
+end)
+
+-- Aviso al entrar en un submap, para saber siempre en qué modo estás.
+-- Nombre vacío = se ha restaurado el submap por defecto.
+hl.on("keybinds.submap", function(name)
+    if name ~= "" then
+        hl.notification.create({ text = "Modo: " .. name, timeout = 1500, icon = "ok" })
+    end
+end)
