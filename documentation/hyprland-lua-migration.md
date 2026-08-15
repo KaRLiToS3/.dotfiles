@@ -127,6 +127,41 @@ Al borrar `hyprland.conf` con la sesión legacy aún en marcha, Hyprland regener
 por defecto. Es inerte: el resolutor prueba `.lua` primero y solo cae a `.conf` si falta.
 Se borró y no volvió a aparecer.
 
+## Efecto colateral: los clicks de Waybar dejaron de cambiar de workspace
+
+Tras migrar, hacer click en los workspaces de Waybar no hacía nada (el botón
+reaccionaba visualmente pero Hyprland no cambiaba). Misma causa que lo de swayidle:
+Waybar manda `dispatch workspace <id>` por el IPC y bajo el gestor Lua eso se
+envuelve en `hl.dispatch(...)`:
+
+```
+$ hyprctl dispatch workspace 3
+error: [string "return hl.dispatch(workspace 3)"]:1: ')' expected near '3'
+```
+
+Es un bug conocido de Waybar, ya arreglado upstream en
+[PR #5013](https://github.com/Alexays/Waybar/pull/5013), pero el fix no está en la
+versión de los repos:
+
+| | Fecha |
+| --- | --- |
+| Waybar 0.15.0 (repos oficiales) | 2026-02-06 |
+| Fix PR #5013 | 2026-05-04 |
+
+No hay apaño por configuración: el módulo `hyprland/workspaces` no expone `on-click`,
+el click se maneja internamente.
+
+**Solución:** instalar `waybar-git` del AUR, que sí lo incluye.
+
+```bash
+yay -S waybar-git
+```
+
+No hace falta desinstalar `waybar` antes: el PKGBUILD declara
+`provides=waybar` y `conflicts=waybar`, así que pacman resuelve el reemplazo en una
+sola transacción. Borrarlo a mano sería peor, porque te quedas sin barra mientras
+compila.
+
 ## Archivos eliminados
 
 `hyprland.conf`, `sources/{look_and_feel,input,binds,window_rules}.conf` y
