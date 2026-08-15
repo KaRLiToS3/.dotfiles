@@ -4,6 +4,7 @@
 ---@module 'hl'
 
 local apps    = require("sources.programs")
+local actions = require("sources.window_actions")
 local mainMod = "SUPER"
 
 ---------------------
@@ -41,7 +42,8 @@ hl.bind(mainMod .. " + CTRL + S",  hl.dsp.exec_cmd([[grim -g "$(slurp)" ~/Imáge
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exit())
-hl.bind(mainMod .. " + V", hl.dsp.window.float())
+-- Flota dimensionando y centrando, igual que el gesto de 4 dedos abajo
+hl.bind(mainMod .. " + V", actions.float_toggle)
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo()) -- dwindle
 
 -- Fija la ventana en todos los workspaces (útil con visores de imágenes)

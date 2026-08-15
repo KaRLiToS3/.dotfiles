@@ -3,6 +3,8 @@
 
 ---@module 'hl'
 
+local actions = require("sources.window_actions")
+
 hl.config({
     input = {
         kb_layout = "es",
@@ -40,55 +42,12 @@ hl.device({
 -- 3 dedos en horizontal: cambiar de workspace (animación 1:1)
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
--- 4 dedos arriba: maximizar (no "fullscreen", que taparía waybar).
--- Si la ventana está flotante se devuelve a mosaico primero, para que al
--- desmaximizar vuelva al layout y no al tamaño flotante.
-hl.gesture({
-    fingers   = 4,
-    direction = "up",
-    action    = function()
-        local w = hl.get_active_window()
-        if w == nil then return end
-
-        if w.floating then
-            hl.dispatch(hl.dsp.window.float({ action = "off" }))
-        end
-
-        -- ojo: aquí el modo es "maximized", no "maximize" como en el gesto
-        hl.dispatch(hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
-    end,
-})
-
--- 4 dedos abajo: alternar flotante con un tamaño razonable.
--- La acción "float" integrada llama a changeFloatingMode, que hereda el
--- tamaño tiled y en esta pantalla queda enorme, así que se usa una función.
-local FLOAT_RATIO = 0.6
-
-hl.gesture({
-    fingers   = 4,
-    direction = "down",
-    action    = function()
-        local w = hl.get_active_window()
-        if w == nil then return end
-
-        if w.floating then
-            hl.dispatch(hl.dsp.window.float({ action = "off" }))
-            return
-        end
-
-        hl.dispatch(hl.dsp.window.float({ action = "on" }))
-
-        local m = hl.get_active_monitor()
-        if m == nil then return end
-
-        -- width/height son físicos; el tamaño de ventana es lógico
-        hl.dispatch(hl.dsp.window.resize({
-            x = math.floor(m.width  / m.scale * FLOAT_RATIO),
-            y = math.floor(m.height / m.scale * FLOAT_RATIO),
-        }))
-        hl.dispatch(hl.dsp.window.center())
-    end,
-})
+-- Vertical de 4 dedos. Comparte lógica con los atajos (ver window_actions.lua):
+-- abajo hace lo mismo que SUPER+V. Se usan funciones en vez de las acciones
+-- integradas ("fullscreen"/"float") porque estas no permiten controlar el
+-- tamaño ni el estado de mosaico.
+hl.gesture({ fingers = 4, direction = "up",   action = actions.maximize_toggle })
+hl.gesture({ fingers = 4, direction = "down", action = actions.float_toggle })
 
 -- Pellizcar hacia dentro: abrir el scratchpad
 hl.gesture({ fingers = 3, direction = "pinchin", action = "special", workspace_name = "hidden" })
