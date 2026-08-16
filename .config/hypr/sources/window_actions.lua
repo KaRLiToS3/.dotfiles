@@ -32,4 +32,47 @@ function M.float_toggle()
     hl.dispatch(hl.dsp.window.center())
 end
 
+-- Mete la ventana activa en el grupo más cercano del workspace, midiendo
+-- distancia entre centros. Si no hay ningún grupo, avisa y no hace nada.
+function M.move_into_nearest_group()
+    local w = hl.get_active_window()
+    if w == nil then return end
+
+    if w.group ~= nil then
+        hl.notification.create({ text = "La ventana ya está en un grupo", timeout = 1500 })
+        return
+    end
+
+    local ws = w.workspace
+    if ws == nil then return end
+
+    local cx = w.at.x + w.size.x / 2
+    local cy = w.at.y + w.size.y / 2
+
+    local best, bestDist
+
+    for _, other in ipairs(hl.get_workspace_windows(ws)) do
+        local group = other.group
+
+        if group ~= nil and other.address ~= w.address then
+            local ox = other.at.x + other.size.x / 2
+            local oy = other.at.y + other.size.y / 2
+            -- distancia al cuadrado: evita la raíz, el orden es el mismo
+            local dist = (ox - cx) ^ 2 + (oy - cy) ^ 2
+
+            if bestDist == nil or dist < bestDist then
+                best, bestDist = group, dist
+            end
+        end
+    end
+
+    if best == nil then
+        hl.notification.create({ text = "No hay ningún grupo en este workspace", timeout = 2000 })
+        return
+    end
+
+    -- add() ya valida grupos denegados y ventanas no agrupables
+    best:add(w)
+end
+
 return M

@@ -79,9 +79,10 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
 
--- Navegar entre pestañas con ´ y +, ambas de pulsación directa en el layout
--- español. En él [ y ] viven en el nivel AltGr (AltGr+` y AltGr++), así que
--- SUPER+[ exigiría SUPER+AltGr+`; se dejan por si se usa otro layout.
+-- Mete la ventana activa en el grupo más cercano de la pantalla
+hl.bind(mainMod .. " + ccedilla", actions.move_into_nearest_group) -- tecla ç
+
+-- Navegar entre pestañas con ´ y +
 hl.bind(mainMod .. " + dead_acute", hl.dsp.group.prev()) -- tecla ´
 hl.bind(mainMod .. " + plus",       hl.dsp.group.next()) -- tecla +
 
