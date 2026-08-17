@@ -75,4 +75,16 @@ function M.move_into_nearest_group()
     best:add(w)
 end
 
+function M.move_out_of_group()
+    local w = hl.get_active_window()
+    if w == nil then return end
+
+    if w.group == nil then
+        hl.notification.create({ text = "La ventana no está en ningún grupo", timeout = 1500 })
+        return
+    end
+
+    w.group:remove(w)
+end
+
 return M

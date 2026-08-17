@@ -19,8 +19,6 @@ hl.bind(mainMod .. " + SHIFT + F",      hl.dsp.exec_cmd(apps.browser .. [[ --new
 
 hl.bind(mainMod .. " + D",              hl.dsp.exec_cmd(apps.fileManager))
 hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(apps.fileManager .. [[ --name="floating-filemanager"]]))
-hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(apps.fileManager))
-hl.bind(mainMod .. " + SHIFT + E",      hl.dsp.exec_cmd(apps.fileManager .. [[ --name="floating-filemanager"]]))
 
 hl.bind(mainMod .. " + R",              hl.dsp.exec_cmd(apps.menu))
 hl.bind(mainMod .. " + SHIFT + R",      hl.dsp.exec_cmd(apps.menu .. [[ --gtk-application-id="floating-menu"]]))
@@ -81,10 +79,11 @@ hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
 
 -- Mete la ventana activa en el grupo más cercano de la pantalla
 hl.bind(mainMod .. " + ccedilla", actions.move_into_nearest_group) -- tecla ç
+hl.bind(mainMod .. " + plus",     actions.move_out_of_group)       -- tecla +
 
--- Navegar entre pestañas con ´ y +
-hl.bind(mainMod .. " + dead_acute", hl.dsp.group.prev()) -- tecla ´
-hl.bind(mainMod .. " + plus",       hl.dsp.group.next()) -- tecla +
+-- Navegar entre pestañas con w y e
+hl.bind(mainMod .. " + w", hl.dsp.group.prev())
+hl.bind(mainMod .. " + e", hl.dsp.group.next())
 
 hl.bind(mainMod .. " + bracketleft",  hl.dsp.group.prev())
 hl.bind(mainMod .. " + bracketright", hl.dsp.group.next())
