@@ -41,3 +41,6 @@ secrets/
 .config/systemd/user/timers.target.wants/
 .config/systemd/user/sockets.target.wants/
 .config/systemd/user/default.target.wants/
+
+#python
+__pycache__/
