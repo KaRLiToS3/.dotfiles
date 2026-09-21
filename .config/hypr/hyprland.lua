@@ -7,12 +7,31 @@
 ---- MONITOR ----
 -----------------
 
-hl.monitor({
-    output   = "eDP-1",
-    mode     = "2560x1600@240",
-    position = "0x0",
-    scale    = 1,
-})
+-- 240 Hz con cargador, 60 Hz en batería (ahorra varios W en reposo).
+-- Se aplica al cargar la config y, en caliente, desde scripts/refresh-on-power.sh
+-- con `hyprctl eval 'set_refresh_for_power()'`.
+local panel_modes = { ac = "2560x1600@240", battery = "2560x1600@60" }
+local current_panel_mode = nil
+
+function set_refresh_for_power()
+    local f = io.open("/sys/class/power_supply/BAT0/status")
+    local status = f and f:read("l") or ""
+    if f then f:close() end
+
+    local mode = status == "Discharging" and panel_modes.battery or panel_modes.ac
+    -- La batería emite eventos cada poco; sin esto habría un modeset en cada uno
+    if mode == current_panel_mode then return end
+    current_panel_mode = mode
+
+    hl.monitor({
+        output   = "eDP-1",
+        mode     = mode,
+        position = "0x0",
+        scale    = 1,
+    })
+end
+
+set_refresh_for_power()
 
 -------------------------------
 ---- VARIABLES DE ENTORNO ----
@@ -71,6 +90,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("udiskie --tray")
     hl.exec_cmd('imwheel -b "45"')
     hl.exec_cmd("blueman-applet")
+
+    -- 60 Hz en batería / 240 Hz con cargador (ver set_refresh_for_power)
+    hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/refresh-on-power.sh")
 
     -- Ojo: bajo el gestor Lua, `hyprctl dispatch` espera una expresión Lua.
     hl.exec_cmd("swayidle -w "

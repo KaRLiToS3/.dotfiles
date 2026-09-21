@@ -9,7 +9,7 @@ Personal dotfiles and system configuration for an ASUS ROG laptop running Arch L
 - **Shell:** Zsh + oh-my-zsh + powerlevel10k
 - **Terminal:** Alacritty
 - **Theme:** Red/black across all UI components
-- **Display:** 2560x1600 @ 240Hz
+- **Display:** 2560x1600 @ 240Hz on AC, 60Hz on battery (automatic, see `documentation/refresh-rate-on-battery.md`)
 
 ## Repo Structure
 

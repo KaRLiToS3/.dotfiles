@@ -68,6 +68,7 @@ mpv
 mtools
 nano
 nasm
+ncdu
 nemo
 nemo-fileroller
 neochat
@@ -83,6 +84,7 @@ nwg-look
 openssh
 openvpn
 os-prober
+pacman-contrib
 pavucontrol
 pipewire-alsa
 pipewire-pulse
@@ -136,6 +138,7 @@ texlive-xetex
 tree
 ttf-nerd-fonts-symbols
 udiskie
+unrar
 uwsm
 vim
 wev

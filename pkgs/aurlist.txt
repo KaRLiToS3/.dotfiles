@@ -9,6 +9,8 @@ realvnc-vnc-viewer
 shell-color-scripts-git
 supergfxctl
 visual-studio-code-bin
+vmware-keymaps
+vmware-workstation
 waybar-git
 wlogout
 wlogout-debug
