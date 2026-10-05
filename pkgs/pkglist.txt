@@ -142,6 +142,7 @@ unrar
 uwsm
 vim
 wev
+wf-recorder
 wget
 wireplumber
 wireshark-qt
