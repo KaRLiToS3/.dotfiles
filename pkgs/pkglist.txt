@@ -72,6 +72,7 @@ ncdu
 nemo
 nemo-fileroller
 neochat
+net-tools
 netctl
 network-manager-applet
 networkmanager

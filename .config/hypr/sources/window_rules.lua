@@ -158,12 +158,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name      = "ws3-development",
-    match     = { class = "^(code|Code|code-oss|code-url-handler|neovim|jetbrains-.*)$" },
-    workspace = "3",
-})
-
-hl.window_rule({
     name      = "ws4-communication",
     match     = { class = "^(discord|telegram-desktop|Signal|slack|teams)$" },
     workspace = "4",
